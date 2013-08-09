@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.cplatform.sapi</groupId>
+    <artifactId>mall-sapi</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>mall-sapi</name>
+    <properties>
+        <!--主要依赖版本-->
+        <spring.version>3.2.2.RELEASE</spring.version>
+        <guava.version>14.0.1</guava.version>
+        <jackson.version>2.1.0</jackson.version>
+        <slf4j.version>1.7.5</slf4j.version>
+        <junit.version>4.11</junit.version>
+
+        <jetty.version>7.6.10.v20130312</jetty.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.6</jdk.version>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <configuration>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>spring.profiles.active</name>
+                            <value>development</value>
+                        </systemProperty>
+                    </systemProperties>
+                    <useTestClasspath>true</useTestClasspath>
+                    <stopKey>foo</stopKey>
+                    <stopPort>9999</stopPort>
+                    <webAppConfig>
+                        <contextPath>/${project.artifactId}</contextPath>
+                    </webAppConfig>
+                </configuration>
+            </plugin>
+            <!-- compiler插件, 设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <!-- war打包插件, 设定war包名称不带版本号 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <warName>${project.artifactId}</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+
+        <!--订单依赖-->
+        <dependency>
+            <groupId>com.cplatform.mall</groupId>
+            <artifactId>com.cplatform.act.client</artifactId>
+            <version>0.0.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cplatform.pay</groupId>
+            <artifactId>com.cplatform.pay.client</artifactId>
+            <version>0.0.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cplatform.order</groupId>
+            <artifactId>com.cplatform.order.client</artifactId>
+            <version>0.0.8</version>
+        </dependency>
+        <!-- 订单结束-->
+
+
+    </dependencies>
+
+</project>
