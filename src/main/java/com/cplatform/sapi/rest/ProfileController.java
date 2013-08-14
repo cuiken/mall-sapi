@@ -2,6 +2,7 @@ package com.cplatform.sapi.rest;
 
 import com.cplatform.sapi.entity.order.TActOrder;
 import com.cplatform.sapi.entity.profile.MemberFavorite;
+import com.cplatform.sapi.entity.profile.TItemComment;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.ProfileService;
@@ -25,6 +26,7 @@ public class ProfileController {
 
     private Page<TActOrder> orderPage = new Page<TActOrder>(10);
     private Page<MemberFavorite> favoritePage = new Page<MemberFavorite>(10);
+    private Page<TItemComment> commentPage = new Page<TItemComment>(10);
 
     private ProfileService profileService;
 
@@ -40,10 +42,30 @@ public class ProfileController {
     @ResponseBody
     public List<MemberFavorite> myCollects(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-        filters.add(new PropertyFilter("EQL_favoriteType","1"));
-        filters.add(new PropertyFilter("EQL_userId","150964214"));
+        filters.add(new PropertyFilter("EQL_favoriteType", "1"));
+        filters.add(new PropertyFilter("EQL_userId", "150964214"));
         List<MemberFavorite> favorites = profileService.searchMemberFavorite(favoritePage, filters).getResult();
         return favorites;
+    }
+
+    @RequestMapping(value = "myComments", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TItemComment> myComments(HttpServletRequest request) {
+        List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
+        filters.add(new PropertyFilter("EQI_type", "1"));
+        filters.add(new PropertyFilter("EQS_userId", "150964214"));
+        List<TItemComment> comments = profileService.searchItemComment(commentPage, filters).getResult();
+        return comments;
+    }
+
+    @RequestMapping(value = "myQuestions", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TItemComment> myQuestions(HttpServletRequest request) {
+        List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
+        filters.add(new PropertyFilter("EQI_type", "2"));
+        filters.add(new PropertyFilter("EQS_userId", "150964214"));
+        List<TItemComment> comments = profileService.searchItemComment(commentPage, filters).getResult();
+        return comments;
     }
 
     @Autowired

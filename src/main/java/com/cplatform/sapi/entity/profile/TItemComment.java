@@ -1,5 +1,6 @@
 package com.cplatform.sapi.entity.profile;
 
+import com.cplatform.sapi.entity.product.ItemSale;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,6 +16,7 @@ import java.util.Map;
  * Time: 下午5:48
  */
 @Entity
+@Table(name = "T_ITEM_COMMENT")
 public class TItemComment {
 
     private Long id;
@@ -33,7 +35,7 @@ public class TItemComment {
 
     private Integer status;
 
-    private Long saleId;
+//    private Long saleId;
 
     private Long auditUser;
 
@@ -45,6 +47,7 @@ public class TItemComment {
 
     private Long uselessNum;
 
+    private ItemSale itemSale;
     private List<TItemCommentReply> replyContent = Lists.newArrayList();
 
     // --BS METHOD----
@@ -232,14 +235,14 @@ public class TItemComment {
         this.status = status;
     }
 
-    @Column(name = "SALE_ID")
-    public Long getSaleId() {
-        return saleId;
-    }
-
-    public void setSaleId(Long saleId) {
-        this.saleId = saleId;
-    }
+//    @Column(name = "SALE_ID")
+//    public Long getSaleId() {
+//        return saleId;
+//    }
+//
+//    public void setSaleId(Long saleId) {
+//        this.saleId = saleId;
+//    }
 
     @Column(name = "AUDIT_USER")
     public Long getAuditUser() {
@@ -286,13 +289,23 @@ public class TItemComment {
         this.uselessNum = uselessNum;
     }
 
-    @Transient
+    @OneToMany(mappedBy = "comment",cascade = {CascadeType.REMOVE},fetch = FetchType.LAZY,orphanRemoval = true)
     public List<TItemCommentReply> getReplyContent() {
         return replyContent;
     }
 
     public void setReplyContent(List<TItemCommentReply> replyContent) {
         this.replyContent = replyContent;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "sale_id")
+    public ItemSale getItemSale() {
+        return itemSale;
+    }
+
+    public void setItemSale(ItemSale itemSale) {
+        this.itemSale = itemSale;
     }
 
     @Override

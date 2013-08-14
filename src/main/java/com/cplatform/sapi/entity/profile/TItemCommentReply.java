@@ -1,5 +1,6 @@
 package com.cplatform.sapi.entity.profile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
  * Time: 下午5:49
  */
 @Entity
+@Table(name = "T_ITEM_COMMENT_REPLY")
 public class TItemCommentReply {
     private Long id;
 
@@ -20,7 +22,9 @@ public class TItemCommentReply {
 
     private Long userId;
 
-    private Long commentId;
+//    private Long commentId;
+
+    private TItemComment comment;
 
     @SequenceGenerator(name = "seq_item_COMMENT", sequenceName = "SEQ_ITEM_COMMENT")
     @Id
@@ -72,13 +76,15 @@ public class TItemCommentReply {
         this.userId = userId;
     }
 
-    @Column(name = "COMMENT_ID")
-    public Long getCommentId() {
-        return commentId;
+    @ManyToOne
+    @JoinColumn(name = "COMMENT_ID")
+    @JsonIgnore
+    public TItemComment getComment() {
+        return comment;
     }
 
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
+    public void setComment(TItemComment comment) {
+        this.comment = comment;
     }
 
     @Override
