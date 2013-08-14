@@ -1,9 +1,10 @@
-package com.cplatform.sapi.rest.product;
+package com.cplatform.sapi.rest;
 
 import com.cplatform.sapi.DTO.EcKillDTO;
 import com.cplatform.sapi.entity.product.ItemSale;
 import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.mapper.BeanMapper;
+import com.cplatform.sapi.service.product.ItemSaleService;
 import com.cplatform.sapi.service.product.TSysTypeService;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;

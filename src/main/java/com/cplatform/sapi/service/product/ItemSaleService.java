@@ -1,4 +1,4 @@
-package com.cplatform.sapi.rest.product;
+package com.cplatform.sapi.service.product;
 
 import com.cplatform.sapi.entity.product.ItemSale;
 import com.cplatform.sapi.repository.product.ItemSaleDao;
