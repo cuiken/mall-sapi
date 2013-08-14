@@ -22,6 +22,9 @@
             <!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="prettyPrint" value="true"/>
+                <property name="objectMapper">
+                    <bean class="com.cplatform.sapi.mapper.HibernateAwareObjectMapper" />
+                </property>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>

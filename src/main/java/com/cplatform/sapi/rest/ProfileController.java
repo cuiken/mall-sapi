@@ -6,6 +6,7 @@ import com.cplatform.sapi.entity.profile.TItemComment;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.ProfileService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
+ * 个人中心api
  * User: cuikai
  * Date: 13-8-14
  * Time: 上午9:57
@@ -36,6 +38,16 @@ public class ProfileController {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
         List<TActOrder> orders = profileService.searchOrder(orderPage, filters).getResult();
         return orders;
+    }
+
+    @RequestMapping(value = "orderDetail", method = RequestMethod.GET)
+    @ResponseBody
+    public TActOrder orderDetail(HttpServletRequest request) {
+        TActOrder order = profileService.getOrder(214748367575L);
+        Hibernate.initialize(order.getExpressInfo());
+        Hibernate.initialize(order.getGoodsInfos());
+        Hibernate.initialize(order.getPayments());
+        return order;
     }
 
     @RequestMapping(value = "myCollects", method = RequestMethod.GET)

@@ -39,6 +39,10 @@ public class ProfileService {
         return itemCommentDao.findPage(page, filters);
     }
 
+    public TActOrder getOrder(Long id){
+        return orderDao.get(id);
+    }
+
     @Autowired
     public void setOrderDao(TActOrderDao orderDao) {
         this.orderDao = orderDao;
