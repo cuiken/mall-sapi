@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/product")
-public class CategoryController {
+public class ProductController {
 
     private TSysTypeService typeService;
     private ItemSaleService itemSaleService;

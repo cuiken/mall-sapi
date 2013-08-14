@@ -39,8 +39,12 @@ public class ProfileService {
         return itemCommentDao.findPage(page, filters);
     }
 
-    public TActOrder getOrder(Long id){
+    public TActOrder getOrder(Long id) {
         return orderDao.get(id);
+    }
+
+    public void initOrderProxyObject(Object obj) {
+        orderDao.initProxyObject(obj);
     }
 
     @Autowired

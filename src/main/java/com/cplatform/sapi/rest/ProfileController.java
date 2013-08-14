@@ -6,7 +6,6 @@ import com.cplatform.sapi.entity.profile.TItemComment;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.ProfileService;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,10 +42,12 @@ public class ProfileController {
     @RequestMapping(value = "orderDetail", method = RequestMethod.GET)
     @ResponseBody
     public TActOrder orderDetail(HttpServletRequest request) {
-        TActOrder order = profileService.getOrder(214748367575L);
-        Hibernate.initialize(order.getExpressInfo());
-        Hibernate.initialize(order.getGoodsInfos());
-        Hibernate.initialize(order.getPayments());
+        String orderId = request.getParameter("ORDER_ID");
+        TActOrder order = profileService.getOrder(Long.valueOf(orderId == null ? "214748367575" : orderId));
+
+        profileService.initOrderProxyObject(order.getExpressInfo());
+        profileService.initOrderProxyObject(order.getGoodsInfos());
+        profileService.initOrderProxyObject(order.getPayments());
         return order;
     }
 
