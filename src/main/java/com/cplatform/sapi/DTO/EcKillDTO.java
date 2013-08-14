@@ -1,6 +1,7 @@
 package com.cplatform.sapi.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class EcKillDTO {
     private String name;
     private String imgPath;
     private Float marketPrice;
+    private Float killPrice;
     private List<String> thumbs;
 
     public List<String> getThumbs() {
@@ -44,7 +46,7 @@ public class EcKillDTO {
         this.id = id;
     }
 
-    @JsonProperty("desc")
+    @JsonProperty("description")
     public String getRemark() {
         return remark;
     }
@@ -91,5 +93,18 @@ public class EcKillDTO {
 
     public void setSaleStopTime(String saleStopTime) {
         this.saleStopTime = saleStopTime;
+    }
+
+    public Float getKillPrice() {
+        return killPrice;
+    }
+
+    public void setKillPrice(Float killPrice) {
+        this.killPrice = killPrice;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
