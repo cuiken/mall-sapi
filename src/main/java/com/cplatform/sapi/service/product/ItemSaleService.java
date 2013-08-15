@@ -30,6 +30,10 @@ public class ItemSaleService {
         return itemSaleDao.get(id);
     }
 
+    public void initProxy(Object obj) {
+        itemSaleDao.initProxyObject(obj);
+    }
+
     @Autowired
     public void setItemSaleDao(ItemSaleDao itemSaleDao) {
         this.itemSaleDao = itemSaleDao;

@@ -1,11 +1,14 @@
 package com.cplatform.sapi.rest;
 
+import com.cplatform.sapi.DTO.OrderDTO;
+import com.cplatform.sapi.DTO.OrderDataDTO;
 import com.cplatform.sapi.entity.order.TActOrder;
 import com.cplatform.sapi.entity.profile.MemberFavorite;
 import com.cplatform.sapi.entity.profile.TItemComment;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.ProfileService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +36,23 @@ public class ProfileController {
 
     @RequestMapping(value = "myOrders", method = RequestMethod.GET)
     @ResponseBody
-    public List<TActOrder> myOrders(HttpServletRequest request) {
+    public OrderDTO myOrders(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-        List<TActOrder> orders = profileService.searchOrder(orderPage, filters).getResult();
-        return orders;
+        orderPage = profileService.searchOrder(orderPage, filters);
+        List<TActOrder> orders=orderPage.getResult();
+        OrderDTO dto=new OrderDTO();
+        List<OrderDataDTO> datas= Lists.newArrayList();
+        for(TActOrder order:orders){
+            dto.setTotalRow(orderPage.getTotalItems());
+            OrderDataDTO data=new OrderDataDTO();
+            data.setOrderId(order.getId());
+            data.setStatus(order.getStatus());
+            data.setOrderTime(order.getCreateTime());
+            data.setAmount(order.getTotalPayAmount());
+            datas.add(data);
+            dto.setOrderDatas(datas);
+        }
+        return dto;
     }
 
     @RequestMapping(value = "orderDetail", method = RequestMethod.GET)

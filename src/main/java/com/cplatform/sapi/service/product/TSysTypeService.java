@@ -26,7 +26,6 @@ public class TSysTypeService {
     }
 
 
-
     @Autowired
     public void settSysTypeDao(TSysTypeDao tSysTypeDao) {
         this.tSysTypeDao = tSysTypeDao;

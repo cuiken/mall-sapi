@@ -7,9 +7,11 @@ import com.cplatform.sapi.entity.product.SysFileImgThumb;
 import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.orm.Page;
+import com.cplatform.sapi.orm.PageRequest;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.product.ItemSaleService;
 import com.cplatform.sapi.service.product.TSysTypeService;
+import com.cplatform.sapi.util.PathUtil;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,7 @@ public class ProductController {
     private Page<ItemSale> page = new Page<ItemSale>(100);
     private TSysTypeService typeService;
     private ItemSaleService itemSaleService;
+    private PathUtil pathUtil;
 
 
     @RequestMapping(value = "category", method = RequestMethod.GET)
@@ -41,28 +44,47 @@ public class ProductController {
 
     }
 
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    @ResponseBody
+    public ItemSale detail(HttpServletRequest request) {
+        String itemId = request.getParameter("itemId");
+        ItemSale itemSale = itemSaleService.getItemSale(Long.valueOf(itemId == null ? "4849" : itemId));
+        itemSaleService.initProxy(itemSale);
+        return itemSale;
+    }
+
+    /**
+     * filter_EQL_id,filter_EQS_name,filter_LES_saleStopTime,filter_GES_saleStartTime
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "spike", method = RequestMethod.GET)
     @ResponseBody
     public List<EcKillDTO> spike(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 
-        String beginTime = request.getParameter("startTime");
-        filters.add(new PropertyFilter("GES_saleStartTime", beginTime == null ? "20130613100438" : beginTime));
         filters.add(new PropertyFilter("EQL_iseckill", "1"));
         filters.add(new PropertyFilter("EQL_isValid", "1"));
+
+        page.setOrderBy("createTime");
+        page.setOrderDir(PageRequest.Sort.DESC);
         List<ItemSale> itemSales = itemSaleService.searchItemSale(page, filters).getResult();
 
         List<EcKillDTO> killDTOs = Lists.newArrayList();
         for (ItemSale item : itemSales) {
             EcKillDTO dto = BeanMapper.map(item, EcKillDTO.class);
-            List<String> thumbs=Lists.newArrayList();
-            for(SysFileImg fileImg:item.getSysFileImgs()){
+            List<String> thumbs = Lists.newArrayList();
+            for (SysFileImg fileImg : item.getSysFileImgs()) {
 //                for(SysFileImgThumb sysFileImgThumb:fileImg.getSysFileImgThumbs()){
 //                    if(sysFileImgThumb.getImgSize().equals("50x50")){
 //                        thumbs.add(sysFileImgThumb.getImgWebPath());
 //                    }
 //                }
-                thumbs.add(fileImg.getFileName());
+
+//                thumbs.add(fileImg.getFileName());
+                String path = pathUtil.getPathById(2, item.getId()) + fileImg.getFileName();
+                thumbs.add(path);
             }
             dto.setThumbs(thumbs);
             killDTOs.add(dto);
@@ -87,5 +109,10 @@ public class ProductController {
     @Autowired
     public void setItemSaleService(ItemSaleService itemSaleService) {
         this.itemSaleService = itemSaleService;
+    }
+
+    @Autowired
+    public void setPathUtil(PathUtil pathUtil) {
+        this.pathUtil = pathUtil;
     }
 }
