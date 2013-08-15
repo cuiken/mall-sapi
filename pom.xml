@@ -46,31 +46,31 @@
         </dependency>
 
         <!--订单依赖-->
-        <dependency>
-            <groupId>com.cplatform.mall</groupId>
-            <artifactId>com.cplatform.act.client</artifactId>
-            <version>0.0.10</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-lang</groupId>
-                    <artifactId>commons-lang</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.cplatform.pay</groupId>
-            <artifactId>com.cplatform.pay.client</artifactId>
-            <version>0.0.10</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cplatform.order</groupId>
-            <artifactId>com.cplatform.order.client</artifactId>
-            <version>0.0.8</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.cplatform.mall</groupId>-->
+            <!--<artifactId>com.cplatform.act.client</artifactId>-->
+            <!--<version>0.0.10</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>commons-logging</groupId>-->
+                    <!--<artifactId>commons-logging</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>commons-lang</groupId>-->
+                    <!--<artifactId>commons-lang</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.cplatform.pay</groupId>-->
+            <!--<artifactId>com.cplatform.pay.client</artifactId>-->
+            <!--<version>0.0.10</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.cplatform.order</groupId>-->
+            <!--<artifactId>com.cplatform.order.client</artifactId>-->
+            <!--<version>0.0.8</version>-->
+        <!--</dependency>-->
         <!-- 订单结束-->
 
         <!-- SPRING begin -->
@@ -184,6 +184,12 @@
                     <artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.6</version>
         </dependency>
 
         <!-- 重新定义Java XPath Engine到最新版，避免旧版那些不必要的依赖 -->

@@ -1,85 +1,111 @@
 package com.cplatform.sapi.entity.product;
 
 import com.cplatform.sapi.entity.IdEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Title.缩略图存储类 <br>
  * Description.
- * <p>
+ * <p/>
  * Copyright: Copyright (c) 2013-5-29 下午5:45:18
- * <p>
+ * <p/>
  * Company: 北京宽连十方数字技术有限公司
- * <p>
+ * <p/>
  * Author: BaiJie
- * <p>
+ * <p/>
  * Version: 1.0
- * <p>
+ * <p/>
  */
 
 @javax.persistence.Table(name = "T_SYS_FILE_IMG_THUMB")
 @Entity
 public class SysFileImgThumb extends IdEntity {
 
-	private Long fileId;
+//	private Long fileId;
 
-	/** 图片大小 50*50 */
-	private String imgSize;
+    private SysFileImg sysFileImg;
+    /**
+     * 图片大小 50*50
+     */
+    private String imgSize;
 
-	/** 更新时间 */
-	private String updateTime;
+    /**
+     * 更新时间
+     */
+    private String updateTime;
 
-	/** 文件物理路径 */
-	private String imgAbsPath;
+    /**
+     * 文件物理路径
+     */
+    private String imgAbsPath;
 
-	/** web路径 */
-	private String imgWebPath;
+    /**
+     * web路径
+     */
+    private String imgWebPath;
 
-	@Column(name = "update_time")
-	public String getUpdateTime() {
-		return updateTime;
-	}
+    @Column(name = "update_time")
+    public String getUpdateTime() {
+        return updateTime;
+    }
 
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
-	}
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+//
+//	@Column(name = "file_id")
+//	public Long getFileId() {
+//		return fileId;
+//	}
 
-	@Column(name = "file_id")
-	public Long getFileId() {
-		return fileId;
-	}
+    @ManyToOne
+    @JoinColumn(name = "file_id")
+    public SysFileImg getSysFileImg() {
+        return sysFileImg;
+    }
 
-	public void setFileId(Long fileId) {
-		this.fileId = fileId;
-	}
+    public void setSysFileImg(SysFileImg sysFileImg) {
+        this.sysFileImg = sysFileImg;
+    }
 
-	@Column(name = "img_size")
-	public String getImgSize() {
-		return imgSize;
-	}
+//    public void setFileId(Long fileId) {
+//        this.fileId = fileId;
+//    }
 
-	public void setImgSize(String imgSize) {
-		this.imgSize = imgSize;
-	}
+    @Column(name = "img_size")
+    public String getImgSize() {
+        return imgSize;
+    }
 
-	@Column(name = "img_abs_path")
-	public String getImgAbsPath() {
-		return imgAbsPath;
-	}
+    public void setImgSize(String imgSize) {
+        this.imgSize = imgSize;
+    }
 
-	public void setImgAbsPath(String imgAbsPath) {
-		this.imgAbsPath = imgAbsPath;
-	}
+    @Column(name = "img_abs_path")
+    public String getImgAbsPath() {
+        return imgAbsPath;
+    }
 
-	@Column(name = "img_web_path")
-	public String getImgWebPath() {
-		return imgWebPath;
-	}
+    public void setImgAbsPath(String imgAbsPath) {
+        this.imgAbsPath = imgAbsPath;
+    }
 
-	public void setImgWebPath(String imgWebPath) {
-		this.imgWebPath = imgWebPath;
-	}
+    @Column(name = "img_web_path")
+    public String getImgWebPath() {
+        return imgWebPath;
+    }
 
+    public void setImgWebPath(String imgWebPath) {
+        this.imgWebPath = imgWebPath;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

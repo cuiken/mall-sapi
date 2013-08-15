@@ -2,6 +2,8 @@ package com.cplatform.sapi.rest;
 
 import com.cplatform.sapi.DTO.EcKillDTO;
 import com.cplatform.sapi.entity.product.ItemSale;
+import com.cplatform.sapi.entity.product.SysFileImg;
+import com.cplatform.sapi.entity.product.SysFileImgThumb;
 import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.orm.Page;
@@ -48,12 +50,21 @@ public class ProductController {
         filters.add(new PropertyFilter("GES_saleStartTime", beginTime == null ? "20130613100438" : beginTime));
         filters.add(new PropertyFilter("EQL_iseckill", "1"));
         filters.add(new PropertyFilter("EQL_isValid", "1"));
-        page = itemSaleService.searchItemSale(page, filters);
+        List<ItemSale> itemSales = itemSaleService.searchItemSale(page, filters).getResult();
 
         List<EcKillDTO> killDTOs = Lists.newArrayList();
-        for (ItemSale item : page.getResult()) {
+        for (ItemSale item : itemSales) {
             EcKillDTO dto = BeanMapper.map(item, EcKillDTO.class);
-            dto.setThumbs(Lists.newArrayList("111.jpg", "2222.jpg"));
+            List<String> thumbs=Lists.newArrayList();
+            for(SysFileImg fileImg:item.getSysFileImgs()){
+//                for(SysFileImgThumb sysFileImgThumb:fileImg.getSysFileImgThumbs()){
+//                    if(sysFileImgThumb.getImgSize().equals("50x50")){
+//                        thumbs.add(sysFileImgThumb.getImgWebPath());
+//                    }
+//                }
+                thumbs.add(fileImg.getFileName());
+            }
+            dto.setThumbs(thumbs);
             killDTOs.add(dto);
         }
         return killDTOs;

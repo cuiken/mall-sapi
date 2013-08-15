@@ -1,7 +1,6 @@
 package com.cplatform.sapi.entity.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.sf.json.JSONObject;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;

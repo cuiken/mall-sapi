@@ -414,7 +414,9 @@ public class ItemSale {
 
     private List<MemberFavorite> memberFavorites = Lists.newArrayList();
 
-    private List<TItemComment> comments=Lists.newArrayList();
+    private List<TItemComment> comments = Lists.newArrayList();
+
+    private List<SysFileImg> sysFileImgs = Lists.newArrayList();
 
     @Column(name = "IS_VIEW", precision = 1, scale = 0)
     public Long getIsView() {
@@ -691,7 +693,7 @@ public class ItemSale {
     }
 
     @Lob
-    @Column(name = "REMARK",nullable = true)
+    @Column(name = "REMARK", nullable = true)
     public String getRemark() {
         return remark;
     }
@@ -1198,10 +1200,19 @@ public class ItemSale {
         this.memberFavorites = memberFavorites;
     }
 
-    @OneToMany(mappedBy = "itemSale" ,cascade = {CascadeType.REMOVE},fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(mappedBy = "itemSale", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     public List<TItemComment> getComments() {
         return comments;
+    }
+
+    @OneToMany(mappedBy = "itemSale", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    public List<SysFileImg> getSysFileImgs() {
+        return sysFileImgs;
+    }
+
+    public void setSysFileImgs(List<SysFileImg> sysFileImgs) {
+        this.sysFileImgs = sysFileImgs;
     }
 
     public void setComments(List<TItemComment> comments) {
