@@ -3,16 +3,17 @@ package com.cplatform.sapi.rest;
 import com.cplatform.sapi.DTO.EcKillDTO;
 import com.cplatform.sapi.entity.product.ItemSale;
 import com.cplatform.sapi.entity.product.SysFileImg;
-import com.cplatform.sapi.entity.product.SysFileImgThumb;
 import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.mapper.BeanMapper;
+import com.cplatform.sapi.mapper.JsonMapper;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PageRequest;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.product.ItemSaleService;
 import com.cplatform.sapi.service.product.TSysTypeService;
-import com.cplatform.sapi.util.PathUtil;
+import com.cplatform.sapi.util.Encodes;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,6 @@ public class ProductController {
     private Page<ItemSale> page = new Page<ItemSale>(100);
     private TSysTypeService typeService;
     private ItemSaleService itemSaleService;
-    private PathUtil pathUtil;
-
 
     @RequestMapping(value = "category", method = RequestMethod.GET)
     @ResponseBody
@@ -72,23 +71,10 @@ public class ProductController {
         List<ItemSale> itemSales = itemSaleService.searchItemSale(page, filters).getResult();
 
         List<EcKillDTO> killDTOs = Lists.newArrayList();
-        for (ItemSale item : itemSales) {
-            EcKillDTO dto = BeanMapper.map(item, EcKillDTO.class);
-            List<String> thumbs = Lists.newArrayList();
-            for (SysFileImg fileImg : item.getSysFileImgs()) {
-//                for(SysFileImgThumb sysFileImgThumb:fileImg.getSysFileImgThumbs()){
-//                    if(sysFileImgThumb.getImgSize().equals("50x50")){
-//                        thumbs.add(sysFileImgThumb.getImgWebPath());
-//                    }
-//                }
-
-//                thumbs.add(fileImg.getFileName());
-                String path = pathUtil.getPathById(2, item.getId()) + fileImg.getFileName();
-                thumbs.add(path);
-            }
-            dto.setThumbs(thumbs);
-            killDTOs.add(dto);
+        for (ItemSale itemSale : itemSales) {
+            killDTOs.add(converToDTO(itemSale));
         }
+//        return encodeData(killDTOs);
         return killDTOs;
     }
 
@@ -98,7 +84,25 @@ public class ProductController {
         String itemId = request.getParameter("itemId");
 
         ItemSale itemSale = itemSaleService.getItemSale(Long.valueOf(itemId == null ? "4849" : itemId));
-        return BeanMapper.map(itemSale, EcKillDTO.class);
+//        EcKillDTO dto = converToDTO(itemSale);
+//        return encodeData(dto);
+        return converToDTO(itemSale);
+    }
+
+//    private String encodeData(Object object) {
+//        JsonMapper mapper = JsonMapper.buildNormalMapper();
+//        String base64 = Encodes.encodeBase64(mapper.toJson(object).getBytes());
+//        return Encodes.encodeHex(base64.getBytes());
+//    }
+
+    private EcKillDTO converToDTO(ItemSale itemSale) {
+        EcKillDTO dto = BeanMapper.map(itemSale, EcKillDTO.class);
+        List<String> thumbs = Lists.newArrayList();
+        for (SysFileImg fileImg : itemSale.getSysFileImgs()) {
+            thumbs.add(fileImg.getFileName());
+        }
+        dto.setThumbs(thumbs);
+        return dto;
     }
 
     @Autowired
@@ -109,10 +113,5 @@ public class ProductController {
     @Autowired
     public void setItemSaleService(ItemSaleService itemSaleService) {
         this.itemSaleService = itemSaleService;
-    }
-
-    @Autowired
-    public void setPathUtil(PathUtil pathUtil) {
-        this.pathUtil = pathUtil;
     }
 }

@@ -18,16 +18,16 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"/applicationContext*.xml"})
 public class TSysTypeServiceTest extends SpringContextTest {
 
-    private TSysTypeService typeService;
+//    private TSysTypeService typeService;
 
     @Test
     public void getList() {
-        List<TSysType> lists = typeService.getByChannel(2L);
+//        List<TSysType> lists = typeService.getByChannel(2L);
         assertEquals("", "");
     }
 
-    @Autowired
-    public void setTypeService(TSysTypeService typeService) {
-        this.typeService = typeService;
-    }
+//    @Autowired
+//    public void setTypeService(TSysTypeService typeService) {
+//        this.typeService = typeService;
+//    }
 }

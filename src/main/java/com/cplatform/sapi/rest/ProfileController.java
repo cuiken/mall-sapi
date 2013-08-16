@@ -36,23 +36,27 @@ public class ProfileController {
 
     @RequestMapping(value = "myOrders", method = RequestMethod.GET)
     @ResponseBody
-    public OrderDTO myOrders(HttpServletRequest request) {
+    public List<TActOrder> myOrders(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
         orderPage = profileService.searchOrder(orderPage, filters);
         List<TActOrder> orders=orderPage.getResult();
-        OrderDTO dto=new OrderDTO();
-        List<OrderDataDTO> datas= Lists.newArrayList();
+//        OrderDTO dto=new OrderDTO();
+//        List<OrderDataDTO> datas= Lists.newArrayList();
+//        for(TActOrder order:orders){
+//            dto.setTotalRow(orderPage.getTotalItems());
+//            OrderDataDTO data=new OrderDataDTO();
+//            data.setOrderId(order.getId());
+//            data.setStatus(order.getStatus());
+//            data.setOrderTime(order.getCreateTime());
+//            data.setAmount(order.getTotalPayAmount());
+//            datas.add(data);
+//            dto.setOrderDatas(datas);
+//        }
         for(TActOrder order:orders){
-            dto.setTotalRow(orderPage.getTotalItems());
-            OrderDataDTO data=new OrderDataDTO();
-            data.setOrderId(order.getId());
-            data.setStatus(order.getStatus());
-            data.setOrderTime(order.getCreateTime());
-            data.setAmount(order.getTotalPayAmount());
-            datas.add(data);
-            dto.setOrderDatas(datas);
+            profileService.initOrderProxyObject(order.getPayments());
+            profileService.initOrderProxyObject(order.getGoodsInfos());
         }
-        return dto;
+        return orders;
     }
 
     @RequestMapping(value = "orderDetail", method = RequestMethod.GET)
