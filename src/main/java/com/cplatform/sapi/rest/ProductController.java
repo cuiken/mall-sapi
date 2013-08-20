@@ -4,11 +4,13 @@ import com.cplatform.sapi.DTO.EcKillDTO;
 import com.cplatform.sapi.entity.product.ItemSale;
 import com.cplatform.sapi.entity.product.SysFileImg;
 import com.cplatform.sapi.entity.product.TSysType;
+import com.cplatform.sapi.entity.profile.TItemComment;
 import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.mapper.JsonMapper;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PageRequest;
 import com.cplatform.sapi.orm.PropertyFilter;
+import com.cplatform.sapi.service.ProfileService;
 import com.cplatform.sapi.service.product.ItemSaleService;
 import com.cplatform.sapi.service.product.TSysTypeService;
 import com.cplatform.sapi.util.Encodes;
@@ -33,13 +35,16 @@ import java.util.List;
 public class ProductController {
 
     private Page<ItemSale> page = new Page<ItemSale>(100);
+    private Page<TItemComment> commentPage = new Page<TItemComment>(10);
+
     private TSysTypeService typeService;
     private ItemSaleService itemSaleService;
+    private ProfileService profileService;
 
     @RequestMapping(value = "category", method = RequestMethod.GET)
     @ResponseBody
     public List<TSysType> list() {
-        return typeService.getByChannel(2L);
+        return typeService.getByChannel(0L);
 
     }
 
@@ -48,8 +53,29 @@ public class ProductController {
     public ItemSale detail(HttpServletRequest request) {
         String itemId = request.getParameter("itemId");
         ItemSale itemSale = itemSaleService.getItemSale(Long.valueOf(itemId == null ? "4849" : itemId));
-        itemSaleService.initProxy(itemSale);
+        itemSaleService.initProxy(itemSale.getSysFileImgs());
         return itemSale;
+    }
+
+    @RequestMapping(value = "comments",method = RequestMethod.GET)
+    @ResponseBody
+    public List<TItemComment> comments(HttpServletRequest request){
+        List<PropertyFilter> filters=PropertyFilter.buildFromHttpRequest(request);
+        String itemId=request.getParameter("itemId");
+        filters.add(new PropertyFilter("EQI_type", "1"));
+        filters.add(new PropertyFilter("EQL_itemSale.id", (itemId == null ? "205405" : itemId)));
+        return profileService.searchItemComment(commentPage,filters).getResult();
+    }
+
+    @RequestMapping(value = "questions",method = RequestMethod.GET)
+    @ResponseBody
+    public List<TItemComment> questions(HttpServletRequest request){
+        List<PropertyFilter> filters=PropertyFilter.buildFromHttpRequest(request);
+        String itemId=request.getParameter("itemId");
+        filters.add(new PropertyFilter("EQI_type", "2"));
+        filters.add(new PropertyFilter("EQL_itemSale.id", (itemId == null ? "205405" : itemId)));
+        List<TItemComment> comments= profileService.searchItemComment(commentPage,filters).getResult();
+        return comments;
     }
 
     /**
@@ -113,5 +139,10 @@ public class ProductController {
     @Autowired
     public void setItemSaleService(ItemSaleService itemSaleService) {
         this.itemSaleService = itemSaleService;
+    }
+
+    @Autowired
+    public void setProfileService(ProfileService profileService) {
+        this.profileService = profileService;
     }
 }

@@ -1,5 +1,6 @@
 package com.cplatform.sapi.service.product;
 
+import com.cplatform.sapi.entity.product.TChannelType;
 import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.repository.product.TChannelTypeDao;
 import com.cplatform.sapi.repository.product.TSysTypeDao;
@@ -23,6 +24,10 @@ public class TSysTypeService {
 
     public List<TSysType> getByChannel(Long channelId) {
         return tSysTypeDao.findBy("type", channelId);
+    }
+
+    public List<TChannelType> getChannelTypeByRegionAndChannel(String regionCode, Long channel) {
+        return channelTypeDao.createQuery("from TChannelType tt where tt.regionCode=? and tt.channel=?", regionCode, channel).list();
     }
 
 

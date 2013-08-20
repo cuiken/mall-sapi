@@ -1,6 +1,7 @@
 package com.cplatform.sapi.entity.product;
 
 import com.cplatform.sapi.entity.IdEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -165,6 +166,7 @@ public class SysFileImg extends IdEntity {
 //	}
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "bs_id")
     public ItemSale getItemSale() {
         return itemSale;

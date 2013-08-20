@@ -1,6 +1,7 @@
 package com.cplatform.sapi.entity.profile;
 
 import com.cplatform.sapi.entity.product.ItemSale;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -299,6 +300,7 @@ public class TItemComment {
     }
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "sale_id")
     public ItemSale getItemSale() {
         return itemSale;
