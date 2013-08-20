@@ -2,6 +2,7 @@ package com.cplatform.sapi.entity.profile;
 
 import com.cplatform.sapi.entity.IdEntity;
 import com.cplatform.sapi.entity.product.ItemSale;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class MemberFavorite extends IdEntity {
 
     @ManyToOne
     @JoinColumn(name = "favorite_id")
+    @JsonIgnore
     public ItemSale getItemSale() {
         return itemSale;
     }

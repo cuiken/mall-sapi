@@ -1,6 +1,7 @@
 package com.cplatform.sapi.entity.product;
 
 import com.cplatform.sapi.entity.IdEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Column;
@@ -65,6 +66,7 @@ public class SysFileImgThumb extends IdEntity {
 
     @ManyToOne
     @JoinColumn(name = "file_id")
+    @JsonIgnore
     public SysFileImg getSysFileImg() {
         return sysFileImg;
     }

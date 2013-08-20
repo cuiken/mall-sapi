@@ -1,8 +1,10 @@
 package com.cplatform.sapi.service.product;
 
+import com.cplatform.sapi.entity.order.TActOrderGoods;
 import com.cplatform.sapi.entity.product.ItemSale;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PropertyFilter;
+import com.cplatform.sapi.repository.order.TActOrderGoodsDao;
 import com.cplatform.sapi.repository.product.ItemSaleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +22,11 @@ import java.util.List;
 public class ItemSaleService {
 
     private ItemSaleDao itemSaleDao;
+    private TActOrderGoodsDao actOrderGoodsDao;
 
+//    public List<TActOrderGoods> findOrderGoodsById(Long goodsId) {
+//        return actOrderGoodsDao.findBy("itemSale.id", goodsId);
+//    }
 
     public Page<ItemSale> searchItemSale(final Page<ItemSale> page, final List<PropertyFilter> filters) {
         return itemSaleDao.findPage(page, filters);
@@ -37,5 +43,10 @@ public class ItemSaleService {
     @Autowired
     public void setItemSaleDao(ItemSaleDao itemSaleDao) {
         this.itemSaleDao = itemSaleDao;
+    }
+
+    @Autowired
+    public void setActOrderGoodsDao(TActOrderGoodsDao actOrderGoodsDao) {
+        this.actOrderGoodsDao = actOrderGoodsDao;
     }
 }

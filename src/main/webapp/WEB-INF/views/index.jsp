@@ -48,6 +48,7 @@
     <h1>商品模块</h1>
     <ul>
         <li><a href="${ctx}/api/v1/product/spike">商品来源接口</a></li>
+        <li><a href="${ctx}/api/v1/product/goodStatus">保证金接口</a></li>
         <li><a href="#">收藏列表</a></li>
         <li><a href="${ctx}/api/v1/product/comments">商品评价列表</a></li>
         <li><a href="${ctx}/api/v1/product/questions">商品咨询列表</a></li>

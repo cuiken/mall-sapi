@@ -1,19 +1,19 @@
 package com.cplatform.sapi.rest;
 
 import com.cplatform.sapi.DTO.EcKillDTO;
+import com.cplatform.sapi.entity.order.TActOrder;
+import com.cplatform.sapi.entity.order.TActOrderGoods;
 import com.cplatform.sapi.entity.product.ItemSale;
 import com.cplatform.sapi.entity.product.SysFileImg;
 import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.entity.profile.TItemComment;
 import com.cplatform.sapi.mapper.BeanMapper;
-import com.cplatform.sapi.mapper.JsonMapper;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PageRequest;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.ProfileService;
 import com.cplatform.sapi.service.product.ItemSaleService;
 import com.cplatform.sapi.service.product.TSysTypeService;
-import com.cplatform.sapi.util.Encodes;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,24 +57,24 @@ public class ProductController {
         return itemSale;
     }
 
-    @RequestMapping(value = "comments",method = RequestMethod.GET)
+    @RequestMapping(value = "comments", method = RequestMethod.GET)
     @ResponseBody
-    public List<TItemComment> comments(HttpServletRequest request){
-        List<PropertyFilter> filters=PropertyFilter.buildFromHttpRequest(request);
-        String itemId=request.getParameter("itemId");
+    public List<TItemComment> comments(HttpServletRequest request) {
+        List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
+        String itemId = request.getParameter("itemId");
         filters.add(new PropertyFilter("EQI_type", "1"));
         filters.add(new PropertyFilter("EQL_itemSale.id", (itemId == null ? "205405" : itemId)));
-        return profileService.searchItemComment(commentPage,filters).getResult();
+        return profileService.searchItemComment(commentPage, filters).getResult();
     }
 
-    @RequestMapping(value = "questions",method = RequestMethod.GET)
+    @RequestMapping(value = "questions", method = RequestMethod.GET)
     @ResponseBody
-    public List<TItemComment> questions(HttpServletRequest request){
-        List<PropertyFilter> filters=PropertyFilter.buildFromHttpRequest(request);
-        String itemId=request.getParameter("itemId");
+    public List<TItemComment> questions(HttpServletRequest request) {
+        List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
+        String itemId = request.getParameter("itemId");
         filters.add(new PropertyFilter("EQI_type", "2"));
         filters.add(new PropertyFilter("EQL_itemSale.id", (itemId == null ? "205405" : itemId)));
-        List<TItemComment> comments= profileService.searchItemComment(commentPage,filters).getResult();
+        List<TItemComment> comments = profileService.searchItemComment(commentPage, filters).getResult();
         return comments;
     }
 
@@ -114,6 +114,49 @@ public class ProductController {
 //        return encodeData(dto);
         return converToDTO(itemSale);
     }
+
+    @RequestMapping(value = "goodStatus", method = RequestMethod.GET)
+    @ResponseBody
+    public String goodsStatus(HttpServletRequest request) {
+        String itemId = request.getParameter("itemId");
+        String userId = request.getParameter("userId");
+        ItemSale itemSale = itemSaleService.getItemSale(Long.valueOf(itemId == null ? "4849" : itemId));
+        List<TActOrderGoods> goodses = itemSale.getOrderGoodses();
+        int status = 0;
+        if (goodses.size() == 0) { //未购买
+            status = 0;
+        } else {
+            for (TActOrderGoods goods : goodses) {
+                TActOrder order = goods.getOrder();
+                if (Long.valueOf(userId == null ? "150964216" : userId) == order.getUserId()) {
+                    status = order.getStatus();
+                    if (status == 2) {
+                        break;
+                    } else {
+                        status = 1;
+                        continue;
+                    }
+                }
+            }
+        }
+        int flag = 0;
+        String msg = "";
+        switch (status) {
+            case 0:
+                msg = "未购买";
+                break;
+            case 1:
+                flag=1;
+                msg = "待付款";
+                break;
+            case 2:
+                flag=2;
+                msg = "已付款";
+                break;
+        }
+        return "{\"flag\":\"" + flag + "\",\"msg\":\"" + msg + "\"}";
+    }
+
 
 //    private String encodeData(Object object) {
 //        JsonMapper mapper = JsonMapper.buildNormalMapper();

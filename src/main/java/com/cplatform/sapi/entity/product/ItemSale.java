@@ -1,5 +1,6 @@
 package com.cplatform.sapi.entity.product;
 
+import com.cplatform.sapi.entity.order.TActOrderGoods;
 import com.cplatform.sapi.entity.profile.MemberFavorite;
 import com.cplatform.sapi.entity.profile.TItemComment;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -416,6 +417,8 @@ public class ItemSale {
     private List<TItemComment> comments = Lists.newArrayList();
 
     private List<SysFileImg> sysFileImgs = Lists.newArrayList();
+
+    private List<TActOrderGoods> orderGoodses = Lists.newArrayList();
 
     @Column(name = "IS_VIEW", precision = 1, scale = 0)
     public Long getIsView() {
@@ -837,6 +840,10 @@ public class ItemSale {
         return comments;
     }
 
+    public void setComments(List<TItemComment> comments) {
+        this.comments = comments;
+    }
+
     @OneToMany(mappedBy = "itemSale", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
     public List<SysFileImg> getSysFileImgs() {
         return sysFileImgs;
@@ -846,8 +853,13 @@ public class ItemSale {
         this.sysFileImgs = sysFileImgs;
     }
 
-    public void setComments(List<TItemComment> comments) {
-        this.comments = comments;
+    @OneToMany(mappedBy = "itemSale", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    public List<TActOrderGoods> getOrderGoodses() {
+        return orderGoodses;
+    }
+
+    public void setOrderGoodses(List<TActOrderGoods> orderGoodses) {
+        this.orderGoodses = orderGoodses;
     }
 
     @Override
