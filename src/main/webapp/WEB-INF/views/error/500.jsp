@@ -14,5 +14,5 @@
     logger.error(ex.getMessage(), ex);
 %>
 <%
-   response.getWriter().print("{\"FLAG\":\"0\",\"MSG\":\""+ex.getMessage()+"\"}");
+   response.getWriter().print("{\"FLAG\":\"-1\",\"MSG\":\""+ex.getMessage()+"\"}");
 %>

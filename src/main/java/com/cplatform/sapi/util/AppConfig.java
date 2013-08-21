@@ -13,11 +13,14 @@ public class AppConfig {
     @Value("${WebApp.Root:/}")
     private String webRoot;
 
+    @Value("${interface.iteminfo}")
+    private String interfaceItemInfo;
+
     public String getWebRoot() {
         return webRoot;
     }
 
-    public void setWebRoot(String webRoot) {
-        this.webRoot = webRoot;
+    public String getInterfaceItemInfo() {
+        return interfaceItemInfo;
     }
 }
