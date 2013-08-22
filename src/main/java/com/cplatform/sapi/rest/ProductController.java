@@ -14,13 +14,12 @@ import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.ProfileService;
 import com.cplatform.sapi.service.product.ItemSaleService;
 import com.cplatform.sapi.service.product.TSysTypeService;
+import com.cplatform.sapi.util.MediaTypes;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -48,16 +47,24 @@ public class ProductController {
 
     }
 
-    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    @RequestMapping(value = "detail/{itemId}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
-    public ItemSale detail(HttpServletRequest request) {
-        String itemId = request.getParameter("itemId");
-        ItemSale itemSale = itemSaleService.getItemSale(Long.valueOf(itemId == null ? "4849" : itemId));
+    public ItemSale detail(@PathVariable("itemId") Long id) {
+
+        ItemSale itemSale = itemSaleService.getItemSale(id == null ? 0L : id);
         itemSaleService.initProxy(itemSale.getSysFileImgs());
         return itemSale;
     }
 
-    @RequestMapping(value = "comments", method = RequestMethod.GET)
+    @RequestMapping(value = "graphicDetail", method = RequestMethod.GET, produces = MediaTypes.TEXT_PLAIN_UTF_8)
+    @ResponseBody
+    public String graphicDetail(@RequestParam("itemId") Long id) {
+
+        ItemSale itemSale = itemSaleService.getItemSale(id == null ? 0L : id);
+        return itemSale.getRemark();
+    }
+
+    @RequestMapping(value = "comments", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public List<TItemComment> comments(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
@@ -67,7 +74,7 @@ public class ProductController {
         return profileService.searchItemComment(commentPage, filters).getResult();
     }
 
-    @RequestMapping(value = "questions", method = RequestMethod.GET)
+    @RequestMapping(value = "questions", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public List<TItemComment> questions(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
@@ -146,11 +153,11 @@ public class ProductController {
                 msg = "未购买";
                 break;
             case 1:
-                flag=1;
+                flag = 1;
                 msg = "待付款";
                 break;
             case 2:
-                flag=2;
+                flag = 2;
                 msg = "已付款";
                 break;
         }
