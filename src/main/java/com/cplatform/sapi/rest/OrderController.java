@@ -48,6 +48,11 @@ public class OrderController {
         return "";
     }
 
+    @RequestMapping(value = "pay")
+    public String pay(){
+        return null;
+    }
+
     @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
