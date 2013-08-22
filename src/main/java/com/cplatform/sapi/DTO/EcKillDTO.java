@@ -2,6 +2,7 @@ package com.cplatform.sapi.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.dozer.Mapping;
 
 import java.util.List;
 
@@ -95,6 +96,7 @@ public class EcKillDTO {
         this.saleStopTime = saleStopTime;
     }
 
+   @Mapping("iseckillPrice")
     public Float getKillPrice() {
         return killPrice;
     }

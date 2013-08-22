@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -412,6 +413,8 @@ public class ItemSale {
      */
     private Long iseckill;
 
+    private BigDecimal iseckillPrice;
+
     private List<MemberFavorite> memberFavorites = Lists.newArrayList();
 
     private List<TItemComment> comments = Lists.newArrayList();
@@ -756,6 +759,14 @@ public class ItemSale {
 
     public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
+    }
+
+    public BigDecimal getIseckillPrice() {
+        return iseckillPrice;
+    }
+
+    public void setIseckillPrice(BigDecimal iseckillPrice) {
+        this.iseckillPrice = iseckillPrice;
     }
 
     @Column(name = "UPDATE_USER_ID", precision = 9, scale = 0)
