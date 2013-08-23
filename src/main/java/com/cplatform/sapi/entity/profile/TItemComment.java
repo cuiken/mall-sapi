@@ -310,6 +310,11 @@ public class TItemComment {
         this.itemSale = itemSale;
     }
 
+    @Transient
+    public int getReplay() {
+        return replyContent.size();
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

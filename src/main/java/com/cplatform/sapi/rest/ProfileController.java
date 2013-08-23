@@ -1,10 +1,13 @@
 package com.cplatform.sapi.rest;
 
+import com.cplatform.sapi.DTO.MyCommentDTO;
+import com.cplatform.sapi.DTO.MyQuestionDTO;
 import com.cplatform.sapi.DTO.OrderDTO;
 import com.cplatform.sapi.DTO.OrderDataDTO;
 import com.cplatform.sapi.entity.order.TActOrder;
 import com.cplatform.sapi.entity.profile.MemberFavorite;
 import com.cplatform.sapi.entity.profile.TItemComment;
+import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.ProfileService;
@@ -39,7 +42,7 @@ public class ProfileController {
     public List<TActOrder> myOrders(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
         orderPage = profileService.searchOrder(orderPage, filters);
-        List<TActOrder> orders=orderPage.getResult();
+        List<TActOrder> orders = orderPage.getResult();
 //        OrderDTO dto=new OrderDTO();
 //        List<OrderDataDTO> datas= Lists.newArrayList();
 //        for(TActOrder order:orders){
@@ -52,7 +55,7 @@ public class ProfileController {
 //            datas.add(data);
 //            dto.setOrderDatas(datas);
 //        }
-        for(TActOrder order:orders){
+        for (TActOrder order : orders) {
             profileService.initOrderProxyObject(order.getPayments());
             profileService.initOrderProxyObject(order.getGoodsInfos());
         }
@@ -83,22 +86,33 @@ public class ProfileController {
 
     @RequestMapping(value = "myComments", method = RequestMethod.GET)
     @ResponseBody
-    public List<TItemComment> myComments(HttpServletRequest request) {
+    public MyCommentDTO myComments(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
+        String userId = request.getParameter("U_ID");
         filters.add(new PropertyFilter("EQI_type", "1"));
-        filters.add(new PropertyFilter("EQS_userId", "150964214"));
-        List<TItemComment> comments = profileService.searchItemComment(commentPage, filters).getResult();
-        return comments;
+        filters.add(new PropertyFilter("EQS_userId", userId == null ? "150964214" : userId));
+        commentPage = profileService.searchItemComment(commentPage, filters);
+        List<TItemComment> comments = commentPage.getResult();
+        MyCommentDTO dto = new MyCommentDTO();
+        dto.setTotalRow(commentPage.getTotalItems());
+        dto.setData(BeanMapper.mapList(comments, MyCommentDTO.Data.class));
+        return dto;
     }
 
     @RequestMapping(value = "myQuestions", method = RequestMethod.GET)
     @ResponseBody
-    public List<TItemComment> myQuestions(HttpServletRequest request) {
+    public MyQuestionDTO myQuestions(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
+        String type = request.getParameter("TYPE");
+        String userId = request.getParameter("U_ID");
         filters.add(new PropertyFilter("EQI_type", "2"));
-        filters.add(new PropertyFilter("EQS_userId", "150964214"));
-        List<TItemComment> comments = profileService.searchItemComment(commentPage, filters).getResult();
-        return comments;
+        filters.add(new PropertyFilter("EQS_userId", userId == null ? "150964214" : userId));
+        commentPage = profileService.searchItemComment(commentPage, filters);
+        List<TItemComment> comments = commentPage.getResult();
+        MyQuestionDTO dto = new MyQuestionDTO();
+        dto.setTotalRow(commentPage.getTotalItems());
+        dto.setData(BeanMapper.mapList(comments, MyQuestionDTO.Data.class));
+        return dto;
     }
 
     @Autowired

@@ -37,15 +37,13 @@ public class OrderController {
         order.setCreateSource(ActOrderInfo.CREATE_SOURCE_WEB);
         order.setExpireTime(3600);
 
-        ItemSaleDataDTO item = orderService.getItemInfo("4541");
+        ItemSaleDataDTO item = orderService.getItemInfo(String.valueOf(orderDTO.getGoodsId()));
         order.setShopId(item.getItem().getStoreId());
         order.setShopSubject(item.getItem().getStoreName());
 
         // 调用接口下单
-        orderService.createOrder(order);
+     return orderService.createOrder(order);
 
-
-        return "";
     }
 
     @RequestMapping(value = "pay")

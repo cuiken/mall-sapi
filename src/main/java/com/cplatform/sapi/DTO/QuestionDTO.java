@@ -7,18 +7,18 @@ import org.dozer.Mapping;
 import java.util.List;
 
 /**
- * 客户端咨询评论DTO
+ * 客户端咨询DTO
  * User: cuikai
- * Date: 13-8-14
- * Time: 下午3:29
+ * Date: 13-8-23
+ * Time: 下午12:23
  */
-public class CommentDTO {
+public class QuestionDTO {
 
     @JsonProperty("TOTAL_ROW")
     private int totalRow;
 
     @JsonProperty("DATA")
-    private List<CommentDataDTO> data = Lists.newArrayList();
+    private List<Data> data = Lists.newArrayList();
 
     public int getTotalRow() {
         return totalRow;
@@ -28,20 +28,20 @@ public class CommentDTO {
         this.totalRow = totalRow;
     }
 
-    public List<CommentDataDTO> getData() {
+    public List<Data> getData() {
         return data;
     }
 
-    public void setData(List<CommentDataDTO> data) {
+    public void setData(List<Data> data) {
         this.data = data;
     }
 
-    public static class CommentDataDTO {
+    public static class Data {
         @JsonProperty("ID")
         private Long id;
 
-        @JsonProperty("COMMENT")
-        private String comment;
+        @JsonProperty("CONTENT")
+        private String content;
 
         @JsonProperty("TIME")
         private String time;
@@ -52,8 +52,8 @@ public class CommentDTO {
         @JsonProperty("TERMINAL_ID")
         private String terminalId;
 
-        @JsonProperty("LEVEL")
-        private String level;
+        @JsonProperty("REPLAYS")
+        private List<Replay> replays = Lists.newArrayList();
 
         public Long getId() {
             return id;
@@ -63,13 +63,12 @@ public class CommentDTO {
             this.id = id;
         }
 
-        @Mapping("content")
-        public String getComment() {
-            return comment;
+        public String getContent() {
+            return content;
         }
 
-        public void setComment(String comment) {
-            this.comment = comment;
+        public void setContent(String content) {
+            this.content = content;
         }
 
         @Mapping("updateTime")
@@ -98,15 +97,41 @@ public class CommentDTO {
             this.terminalId = terminalId;
         }
 
-        @Mapping("rank")
-        public String getLevel() {
-            return level;
+        @Mapping("replyContent")
+        public List<Replay> getReplays() {
+            return replays;
         }
 
-        public void setLevel(String level) {
-            this.level = level;
+        public void setReplays(List<Replay> replays) {
+            this.replays = replays;
+        }
+
+        public static class Replay {
+
+            @JsonProperty("REPLAY_TIME")
+            private String replayTime;
+
+            @JsonProperty("REPLAY_CONTENT")
+            private String replayContent;
+
+            @Mapping("updateTime")
+            public String getReplayTime() {
+                return replayTime;
+            }
+
+            public void setReplayTime(String replayTime) {
+                this.replayTime = replayTime;
+            }
+
+            @Mapping("content")
+            public String getReplayContent() {
+                return replayContent;
+            }
+
+            public void setReplayContent(String replayContent) {
+                this.replayContent = replayContent;
+            }
         }
     }
-
 
 }

@@ -1,5 +1,6 @@
 package com.cplatform.sapi.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.math.BigDecimal;
@@ -11,18 +12,44 @@ import java.math.BigDecimal;
  * Time: 上午10:10
  */
 public class CreateOrderDTO {
+
+    @JsonProperty("U_ID")
     private Long userId;
+
+    @JsonProperty("GOOD_ID")
     private Long goodsId;
+
+    @JsonProperty("PAY_TYPE")
     private String payType;
+
+    @JsonProperty("COIN")
     private String coin;
+
+    @JsonProperty("CASH")
     private BigDecimal cash;
+
+    @JsonProperty("SCORE")
     private String score;
+
+    @JsonProperty("PRICE")
     private BigDecimal price;
+
+    @JsonProperty("AMOUNT")
     private BigDecimal amount;
+
+    @JsonProperty("FARE")
     private BigDecimal fare;
+
+    @JsonProperty("COUNT")
     private int count;
+
+    @JsonProperty("GOOD_NAME")
     private String goodName;
+
+    @JsonProperty("ADDRESS_ID")
     private Long addressId;
+
+    @JsonProperty("USER_REMARK")
     private String userRemark;
 
 

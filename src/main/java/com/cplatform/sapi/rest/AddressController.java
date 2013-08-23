@@ -1,7 +1,9 @@
 package com.cplatform.sapi.rest;
 
+import com.cplatform.sapi.DTO.TMemberAddressDTO;
 import com.cplatform.sapi.entity.SysRegion;
 import com.cplatform.sapi.entity.TMemberAddress;
+import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.service.TMemberAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,10 +27,11 @@ public class AddressController {
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
     @ResponseBody
-    public List<TMemberAddress> userAddress(HttpServletRequest request) {
-        String userId = request.getParameter("userId");
+    public List<TMemberAddressDTO> userAddress(HttpServletRequest request) {
+        String userId = request.getParameter("U_ID");
         List<TMemberAddress> address = memberAddressService.getAddressByUser(Long.valueOf(userId == null ? "0" : userId));
-        return address;
+        return BeanMapper.mapList(address, TMemberAddressDTO.class);
+//        return address;
     }
 
     @RequestMapping(value = "getAddressInfo", method = RequestMethod.GET)

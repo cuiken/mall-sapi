@@ -2,41 +2,47 @@ package com.cplatform.sapi.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.dozer.Mapping;
 
 import java.util.List;
 
 /**
- * 客户端咨询评论DTO
  * User: cuikai
- * Date: 13-8-14
- * Time: 下午3:29
+ * Date: 13-8-23
+ * Time: 下午1:36
  */
-public class CommentDTO {
+public class MyCommentDTO {
 
     @JsonProperty("TOTAL_ROW")
-    private int totalRow;
+    private Long totalRow;
 
     @JsonProperty("DATA")
-    private List<CommentDataDTO> data = Lists.newArrayList();
+    private List<Data> data = Lists.newArrayList();
 
-    public int getTotalRow() {
+    public Long getTotalRow() {
         return totalRow;
     }
 
-    public void setTotalRow(int totalRow) {
+    public void setTotalRow(Long totalRow) {
         this.totalRow = totalRow;
     }
 
-    public List<CommentDataDTO> getData() {
+    public List<Data> getData() {
         return data;
     }
 
-    public void setData(List<CommentDataDTO> data) {
+    public void setData(List<Data> data) {
         this.data = data;
     }
 
-    public static class CommentDataDTO {
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
+    public static class Data {
+
         @JsonProperty("ID")
         private Long id;
 
@@ -46,14 +52,11 @@ public class CommentDTO {
         @JsonProperty("TIME")
         private String time;
 
-        @JsonProperty("NAME")
-        private String name;
-
-        @JsonProperty("TERMINAL_ID")
-        private String terminalId;
-
         @JsonProperty("LEVEL")
         private String level;
+
+        @JsonProperty("GOODS")
+        private Good good;
 
         public Long getId() {
             return id;
@@ -81,21 +84,13 @@ public class CommentDTO {
             this.time = time;
         }
 
-        @Mapping("nickname")
-        public String getName() {
-            return name;
+        @Mapping("itemSale")
+        public Good getGood() {
+            return good;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getTerminalId() {
-            return terminalId;
-        }
-
-        public void setTerminalId(String terminalId) {
-            this.terminalId = terminalId;
+        public void setGood(Good good) {
+            this.good = good;
         }
 
         @Mapping("rank")
@@ -106,7 +101,30 @@ public class CommentDTO {
         public void setLevel(String level) {
             this.level = level;
         }
+
+        public static class Good {
+            @JsonProperty("GOOD_ID")
+            private Long goodId;
+
+            @JsonProperty("NAME")
+            private String name;
+
+            @Mapping("id")
+            public Long getGoodId() {
+                return goodId;
+            }
+
+            public void setGoodId(Long goodId) {
+                this.goodId = goodId;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+        }
     }
-
-
 }

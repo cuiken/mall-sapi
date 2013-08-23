@@ -1,12 +1,16 @@
 package com.cplatform.sapi.rest;
 
+import com.cplatform.sapi.DTO.CommentDTO;
 import com.cplatform.sapi.DTO.EcKillDTO;
+import com.cplatform.sapi.DTO.Product.ProductDTO;
+import com.cplatform.sapi.DTO.QuestionDTO;
 import com.cplatform.sapi.entity.order.TActOrder;
 import com.cplatform.sapi.entity.order.TActOrderGoods;
 import com.cplatform.sapi.entity.product.ItemSale;
 import com.cplatform.sapi.entity.product.SysFileImg;
 import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.entity.profile.TItemComment;
+import com.cplatform.sapi.entity.profile.TItemCommentReply;
 import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PageRequest;
@@ -49,40 +53,50 @@ public class ProductController {
 
     @RequestMapping(value = "detail/{itemId}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
-    public ItemSale detail(@PathVariable("itemId") Long id) {
+    public ProductDTO detail(@PathVariable("itemId") Long id) {
 
-        ItemSale itemSale = itemSaleService.getItemSale(id == null ? 0L : id);
-        itemSaleService.initProxy(itemSale.getSysFileImgs());
-        return itemSale;
+        ItemSale itemSale = itemSaleService.getItemSale(id);
+
+        ProductDTO dto = BeanMapper.map(itemSale, ProductDTO.class);
+        dto.setImages(Lists.newArrayList(itemSale.getImgPath()));
+        return dto;
     }
 
     @RequestMapping(value = "graphicDetail", method = RequestMethod.GET, produces = MediaTypes.TEXT_PLAIN_UTF_8)
     @ResponseBody
     public String graphicDetail(@RequestParam("itemId") Long id) {
 
-        ItemSale itemSale = itemSaleService.getItemSale(id == null ? 0L : id);
+        ItemSale itemSale = itemSaleService.getItemSale(id);
         return itemSale.getRemark();
     }
 
     @RequestMapping(value = "comments", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
-    public List<TItemComment> comments(HttpServletRequest request) {
+    public CommentDTO comments(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-        String itemId = request.getParameter("itemId");
+        String itemId = request.getParameter("GOOD_ID");
         filters.add(new PropertyFilter("EQI_type", "1"));
         filters.add(new PropertyFilter("EQL_itemSale.id", (itemId == null ? "205405" : itemId)));
-        return profileService.searchItemComment(commentPage, filters).getResult();
+        List<TItemComment> comments = profileService.searchItemComment(commentPage, filters).getResult();
+        CommentDTO dto = new CommentDTO();
+        dto.setData(BeanMapper.mapList(comments, CommentDTO.CommentDataDTO.class));
+        dto.setTotalRow(comments.size());
+        return dto;
+
     }
 
     @RequestMapping(value = "questions", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
-    public List<TItemComment> questions(HttpServletRequest request) {
+    public QuestionDTO questions(HttpServletRequest request) {
         List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-        String itemId = request.getParameter("itemId");
+        String itemId = request.getParameter("GOOD_ID");
         filters.add(new PropertyFilter("EQI_type", "2"));
         filters.add(new PropertyFilter("EQL_itemSale.id", (itemId == null ? "205405" : itemId)));
         List<TItemComment> comments = profileService.searchItemComment(commentPage, filters).getResult();
-        return comments;
+        QuestionDTO dto=new QuestionDTO();
+        dto.setTotalRow(comments.size());
+        dto.setData(BeanMapper.mapList(comments,QuestionDTO.Data.class));
+        return dto;
     }
 
     /**

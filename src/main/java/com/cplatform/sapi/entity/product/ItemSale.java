@@ -408,6 +408,10 @@ public class ItemSale {
      */
     private Long isView;
 
+    private Long allowCash;
+    private Long allowCoin;
+    private Long allowScore;
+
     /**
      * 是否秒杀*
      */
@@ -871,6 +875,33 @@ public class ItemSale {
 
     public void setOrderGoodses(List<TActOrderGoods> orderGoodses) {
         this.orderGoodses = orderGoodses;
+    }
+
+    @Column(name = "CASH_IDGOODS")
+    public Long getAllowCash() {
+        return allowCash;
+    }
+
+    public void setAllowCash(Long allowCash) {
+        this.allowCash = allowCash;
+    }
+
+    @Column(name = "COIN_IDGOODS")
+    public Long getAllowCoin() {
+        return allowCoin;
+    }
+
+    public void setAllowCoin(Long allowCoin) {
+        this.allowCoin = allowCoin;
+    }
+
+    @Column(name = "SCORE_IDGOODS")
+    public Long getAllowScore() {
+        return allowScore;
+    }
+
+    public void setAllowScore(Long allowScore) {
+        this.allowScore = allowScore;
     }
 
     @Override

@@ -31,17 +31,19 @@ public class OrderService {
     private ActServiceClient actOrderClient;
 
 
-    public boolean createOrder(ActOrderInfo orderInfo) {
+    public String createOrder(ActOrderInfo orderInfo) {
         ActOrderCreateRequest request = new ActOrderCreateRequest();
         request.setActOrderInfo(orderInfo);
         ActOrderCreateResponse resp = actOrderClient.createActOrder(request);
-        logger.info("下单回包： " + resp);
-        if (resp.getStatus() != ActOrderCreateResponse.STATUS_OK) {
-            logger.info("创建订单失败: " + resp.getStatusText());
-            return false;
-        } else {
-            return true;
-        }
+//        logger.info("下单回包： " + resp);
+//        if (resp.getStatus() != ActOrderCreateResponse.STATUS_OK) {
+//            logger.info("创建订单失败: " + resp.getStatusText());
+//            return false;
+//        } else {
+//            return true;
+//        }
+        JsonMapper mapper=JsonMapper.buildNormalMapper();
+        return mapper.toJson(resp);
     }
 
     /**
