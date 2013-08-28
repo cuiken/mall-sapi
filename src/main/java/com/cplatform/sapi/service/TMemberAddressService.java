@@ -4,6 +4,7 @@ import com.cplatform.sapi.entity.SysRegion;
 import com.cplatform.sapi.entity.TMemberAddress;
 import com.cplatform.sapi.repository.SysRegionDao;
 import com.cplatform.sapi.repository.TMemberAddressDao;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,13 +35,17 @@ public class TMemberAddressService {
         memberAddressDao.save(entity);
     }
 
-    public List<SysRegion> getRegionByLevel(Long level, String name) {
+    public List<SysRegion> getRegionByLevel(Long level, Long id) {
         if (level == 0L) {
             return regionDao.findBy("regionLevel", level);
-        } else {
-            SysRegion region = regionDao.findUnique("from SysRegion r where r.regionName=? ", name);
-            if(region==null) return null;
+        } else if (level == 1) {
+            SysRegion region = regionDao.get(id);
+            if (region == null) return null;
             return regionDao.createQuery("from SysRegion r where r.parentRegion=?", region.getRegionCode()).list();
+        } else {
+            SysRegion entity=regionDao.get(id);
+            regionDao.initProxyObject(entity);
+            return Lists.newArrayList(entity);
         }
     }
 

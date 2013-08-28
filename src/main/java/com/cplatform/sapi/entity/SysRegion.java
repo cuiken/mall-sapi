@@ -14,6 +14,8 @@ public class SysRegion extends IdEntity {
 
 	private Long regionLevel;
 
+    private String areaCode;
+
 	private String parentRegion;
 
 	private String shortName;
@@ -36,7 +38,15 @@ public class SysRegion extends IdEntity {
 		this.regionCode = regionCode;
 	}
 
-	@javax.persistence.Column(name = "REGION_NAME")
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    @javax.persistence.Column(name = "REGION_NAME")
 	@Basic
 	public String getRegionName() {
 		return regionName;

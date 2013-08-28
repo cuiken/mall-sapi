@@ -36,9 +36,9 @@ public class AddressController {
 
     @RequestMapping(value = "getAddressInfo", method = RequestMethod.GET)
     @ResponseBody
-    public List<SysRegion> getAddressInfo(Long level, String name) {
+    public List<SysRegion> getAddressInfo(Long level, Long id) {
         level = (level == null ? 0L : level);
-        return memberAddressService.getRegionByLevel(level, name);
+        return memberAddressService.getRegionByLevel(level, id);
     }
 
     @RequestMapping(value = "delete/{id}")
