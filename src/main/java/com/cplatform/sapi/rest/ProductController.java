@@ -6,10 +6,7 @@ import com.cplatform.sapi.DTO.Product.ProductDTO;
 import com.cplatform.sapi.DTO.QuestionDTO;
 import com.cplatform.sapi.entity.order.TActOrder;
 import com.cplatform.sapi.entity.order.TActOrderGoods;
-import com.cplatform.sapi.entity.product.ItemSale;
-import com.cplatform.sapi.entity.product.ItemSaleExt;
-import com.cplatform.sapi.entity.product.SysFileImg;
-import com.cplatform.sapi.entity.product.TSysType;
+import com.cplatform.sapi.entity.product.*;
 import com.cplatform.sapi.entity.profile.TItemComment;
 import com.cplatform.sapi.entity.profile.TItemCommentReply;
 import com.cplatform.sapi.mapper.BeanMapper;
@@ -21,13 +18,16 @@ import com.cplatform.sapi.service.product.ItemSaleService;
 import com.cplatform.sapi.service.product.TSysTypeService;
 import com.cplatform.sapi.util.MediaTypes;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: cuikai
@@ -57,8 +57,20 @@ public class ProductController {
     public ProductDTO detail(@PathVariable("itemId") Long id) {
 
         ItemSale itemSale = itemSaleService.getItemSale(id);
-//        ItemSaleExt ext=itemSale.getItemSaleExt();
+        ItemSaleExt ext=itemSale.getItemSaleExt();
+
+        List<ItemPrice> prices=itemSale.getItemPrice();
+
+        Map<String,Object> memPrice= Maps.newHashMap();
+        for(ItemPrice price:prices){
+            memPrice.put(price.getPriceTypeCode(),price.getPrice());
+        }
+
         ProductDTO dto = BeanMapper.map(itemSale, ProductDTO.class);
+        dto.setFare(ext.getLogisticsFee());
+        dto.setLogisticsFeeType(ext.getLogisticsFeeType());
+        dto.setSoldCount(ext.getSaleNum().intValue());
+        dto.setMemberPrice(memPrice);
         dto.setImages(Lists.newArrayList(itemSale.getImgPath()));
         return dto;
     }

@@ -429,6 +429,8 @@ public class ItemSale {
 
     private ItemSaleExt itemSaleExt;
 
+    private List<ItemPrice> itemPrice;
+
     @Column(name = "IS_VIEW", precision = 1, scale = 0)
     public Long getIsView() {
         return isView;
@@ -887,6 +889,17 @@ public class ItemSale {
     public void setItemSaleExt(ItemSaleExt itemSaleExt) {
         this.itemSaleExt = itemSaleExt;
     }
+
+
+    @OneToMany(mappedBy = "itemSale", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    public List<ItemPrice> getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(List<ItemPrice> itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
 
     @Column(name = "CASH_IDGOODS")
     public Long getAllowCash() {
