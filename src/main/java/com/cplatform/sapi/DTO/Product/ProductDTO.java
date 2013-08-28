@@ -27,9 +27,6 @@ public class ProductDTO {
     @JsonProperty("MALL_PRICE")
     private BigDecimal mallPrice;
 
-    @JsonProperty("SCORE_PRICE")
-    private BigDecimal scorePrice;
-
     @JsonProperty("MEMBER_PRICE")
     private BigDecimal memberPrice;
 
@@ -91,14 +88,6 @@ public class ProductDTO {
 
     public void setMallPrice(BigDecimal mallPrice) {
         this.mallPrice = mallPrice;
-    }
-
-    public BigDecimal getScorePrice() {
-        return scorePrice;
-    }
-
-    public void setScorePrice(BigDecimal scorePrice) {
-        this.scorePrice = scorePrice;
     }
 
     public BigDecimal getMemberPrice() {
@@ -180,6 +169,96 @@ public class ProductDTO {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public static class Free{
+        /** 销售数量 **/
+        private Long saleNum;
+
+        /** 人气数 **/
+        private Long clickNum;
+
+        /** 评论量 **/
+        private Long commentNum;
+
+        /** 购买人数 **/
+        private Long userNum;
+
+        /** 收藏数量 **/
+        private Long collectNum;
+
+        /** 商品评分 **/
+        private Double rank;
+
+        /** 物流运费 **/
+        private BigDecimal logisticsFee;
+
+        /** 物流计算方式 0-不累计1-按数量 **/
+        private Long logisticsFeeType;
+
+        public Long getSaleNum() {
+            return saleNum;
+        }
+
+        public void setSaleNum(Long saleNum) {
+            this.saleNum = saleNum;
+        }
+
+        public Long getClickNum() {
+            return clickNum;
+        }
+
+        public void setClickNum(Long clickNum) {
+            this.clickNum = clickNum;
+        }
+
+        public Long getCommentNum() {
+            return commentNum;
+        }
+
+        public void setCommentNum(Long commentNum) {
+            this.commentNum = commentNum;
+        }
+
+        public Long getUserNum() {
+            return userNum;
+        }
+
+        public void setUserNum(Long userNum) {
+            this.userNum = userNum;
+        }
+
+        public Long getCollectNum() {
+            return collectNum;
+        }
+
+        public void setCollectNum(Long collectNum) {
+            this.collectNum = collectNum;
+        }
+
+        public Double getRank() {
+            return rank;
+        }
+
+        public void setRank(Double rank) {
+            this.rank = rank;
+        }
+
+        public BigDecimal getLogisticsFee() {
+            return logisticsFee;
+        }
+
+        public void setLogisticsFee(BigDecimal logisticsFee) {
+            this.logisticsFee = logisticsFee;
+        }
+
+        public Long getLogisticsFeeType() {
+            return logisticsFeeType;
+        }
+
+        public void setLogisticsFeeType(Long logisticsFeeType) {
+            this.logisticsFeeType = logisticsFeeType;
+        }
     }
 
     @Override

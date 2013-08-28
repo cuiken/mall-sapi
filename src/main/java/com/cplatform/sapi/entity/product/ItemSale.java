@@ -427,6 +427,8 @@ public class ItemSale {
 
     private List<TActOrderGoods> orderGoodses = Lists.newArrayList();
 
+    private ItemSaleExt itemSaleExt;
+
     @Column(name = "IS_VIEW", precision = 1, scale = 0)
     public Long getIsView() {
         return isView;
@@ -875,6 +877,15 @@ public class ItemSale {
 
     public void setOrderGoodses(List<TActOrderGoods> orderGoodses) {
         this.orderGoodses = orderGoodses;
+    }
+
+    @OneToOne(mappedBy = "itemSale", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    public ItemSaleExt getItemSaleExt() {
+        return itemSaleExt;
+    }
+
+    public void setItemSaleExt(ItemSaleExt itemSaleExt) {
+        this.itemSaleExt = itemSaleExt;
     }
 
     @Column(name = "CASH_IDGOODS")

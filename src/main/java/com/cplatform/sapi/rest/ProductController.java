@@ -7,6 +7,7 @@ import com.cplatform.sapi.DTO.QuestionDTO;
 import com.cplatform.sapi.entity.order.TActOrder;
 import com.cplatform.sapi.entity.order.TActOrderGoods;
 import com.cplatform.sapi.entity.product.ItemSale;
+import com.cplatform.sapi.entity.product.ItemSaleExt;
 import com.cplatform.sapi.entity.product.SysFileImg;
 import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.entity.profile.TItemComment;
@@ -56,7 +57,7 @@ public class ProductController {
     public ProductDTO detail(@PathVariable("itemId") Long id) {
 
         ItemSale itemSale = itemSaleService.getItemSale(id);
-
+//        ItemSaleExt ext=itemSale.getItemSaleExt();
         ProductDTO dto = BeanMapper.map(itemSale, ProductDTO.class);
         dto.setImages(Lists.newArrayList(itemSale.getImgPath()));
         return dto;
