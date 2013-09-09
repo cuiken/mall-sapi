@@ -291,6 +291,60 @@
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
+        
+         <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-jms</artifactId>
+          <version>${spring.version}</version>
+         </dependency>
+      
+          <dependency>
+          <groupId>com.cplatform</groupId>
+          <artifactId>com.cplatform.message</artifactId>
+          <version>1.0.0</version>
+          </dependency>
+
+	      <dependency>
+	          <groupId>com.cplatform</groupId>
+	          <artifactId>com.cplatform.com.message</artifactId>
+	          <version>1.0.0</version>
+	      </dependency>
+	      
+	      <dependency>
+          <groupId>org.apache.activemq</groupId>
+          <artifactId>activemq-core</artifactId>
+          <version>5.7.0</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.apache.activemq.protobuf</groupId>
+                  <artifactId>activemq-protobuf</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>org.springframework.osgi</groupId>
+                  <artifactId>spring-osgi-core</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>org.osgi</groupId>
+                  <artifactId>org.osgi.core</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>commons-logging</groupId>
+                  <artifactId>commons-logging</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+	      
+	      <dependency>
+          <groupId>com.cplatform</groupId>
+          <artifactId>dbhelp</artifactId>
+          <version>1.2</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>commons-logging</groupId>
+                  <artifactId>commons-logging</artifactId>
+              </exclusion>
+          </exclusions>
+      		</dependency>
     </dependencies>
 
     <build>
@@ -334,40 +388,7 @@
                     <warName>${project.artifactId}</warName>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.2</version>
-                <executions>
-                    <execution>
-                        <id>enforce-banned-dependencies</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.0.3</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>1.6</version>
-                                </requireJavaVersion>
-                                <bannedDependencies>
-                                    <searchTransitive>true</searchTransitive>
-                                    <!-- 避免引入过期的jar包 -->
-                                    <excludes>
-                                        <exclude>commons-logging</exclude>
-                                        <exclude>aspectj:aspectj*</exclude>
-                                        <exclude>org.springframework:2.*</exclude>
-                                        <exclude>org.springframework:3.0.*</exclude>
-                                    </excludes>
-                                </bannedDependencies>
-                            </rules>
-                            <fail>true</fail>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            
         </plugins>
     </build>
 </project>

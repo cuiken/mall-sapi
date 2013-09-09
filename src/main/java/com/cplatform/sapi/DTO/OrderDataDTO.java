@@ -1,162 +1,220 @@
 package com.cplatform.sapi.DTO;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
- * User: cuikai
- * Date: 13-8-15
- * Time: 上午11:24
+ * User: cuikai Date: 13-8-15 Time: 上午11:24
  */
 public class OrderDataDTO {
-    private Long orderId;
-    private String image;
-    private int fare;
-    private int price;
-    private int count;
-    private int terminalId;
-    private int status;
-    private String orderTime;
-    private double amount;
-    private String payType;
-    private String payTime;
-    private int coin;
-    private int cash;
-    private int score;
-    private String expressName;
-    private String expressId;
-    private String expressCode;
 
-    public Long getOrderId() {
-        return orderId;
-    }
+	@JsonProperty("FLAG")
+	private String flag;
+	
+	@JsonProperty("MSG")
+	private String msg;
+	
+	@JsonProperty("ORDER_ID")
+	private Long orderId;
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
+	@JsonProperty("FARE")
+	private int fare;
 
-    public String getImage() {
-        return image;
-    }
+	@JsonProperty("STATUS")
+	private int status;
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+	@JsonProperty("CREATE_TIME")
+	private String orderTime;
+	
+	@JsonProperty("AMOUNT")
+	private double amount;
+	
+	@JsonProperty("PAY_STATUS")
+	private int payStatus;
+	
+	@JsonProperty("PAY_DESCRIPTION")
+	private String payDescription;
+	
+	@JsonProperty("GOODS_INFOS")
+	private List<GoodsInfoDTO> goodsInfoDTOs;
+	
+	@JsonProperty("PAYMENTS")
+	private List<PaymentDTO> paymentDTOs;
+	
+	@JsonProperty("PAY_TIME")
+	private String payTime;
 
-    public int getFare() {
-        return fare;
-    }
+	@JsonProperty("EXPRESS_NAME")
+	private String expressName;
+	
+	@JsonProperty("EXPRESS_ID")
+	private long expressId;
+	
+	@JsonProperty("EXPRESS_CODE")
+	private String expressCode;
+	
+	@JsonProperty("DELIVERY_NAME")
+	private String deliveryName;
+	
+	@JsonProperty("DELIVERY_PHONE")
+	private String deliveryPhone;
+	
+	@JsonProperty("ADDRESS")
+	private String address;
+	
+	@JsonProperty("SUBJECT")
+	private String subject;
+	
+	public String getFlag() {
+		return flag == null ? "0" : flag;
+	}
 
-    public void setFare(int fare) {
-        this.fare = fare;
-    }
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
 
-    public int getPrice() {
-        return price;
-    }
+	public String getMsg() {
+		return msg == null ? "操作成功" : msg;
+	}
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
-    public int getCount() {
-        return count;
-    }
+	public Long getOrderId() {
+		return orderId;
+	}
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
 
-    public int getTerminalId() {
-        return terminalId;
-    }
+	public int getFare() {
+		return fare;
+	}
 
-    public void setTerminalId(int terminalId) {
-        this.terminalId = terminalId;
-    }
+	public void setFare(int fare) {
+		this.fare = fare;
+	}
 
-    public int getStatus() {
-        return status;
-    }
+	public int getStatus() {
+		return status;
+	}
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
-    public String getOrderTime() {
-        return orderTime;
-    }
+	public String getOrderTime() {
+		return orderTime;
+	}
 
-    public void setOrderTime(String orderTime) {
-        this.orderTime = orderTime;
-    }
+	public void setOrderTime(String orderTime) {
+		this.orderTime = orderTime;
+	}
 
-    public double getAmount() {
-        return amount;
-    }
+	public double getAmount() {
+		return amount;
+	}
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 
-    public String getPayType() {
-        return payType;
-    }
+	public String getPayTime() {
+		return payTime;
+	}
 
-    public void setPayType(String payType) {
-        this.payType = payType;
-    }
+	public void setPayTime(String payTime) {
+		this.payTime = payTime;
+	}
 
-    public String getPayTime() {
-        return payTime;
-    }
+	public String getExpressName() {
+		return expressName;
+	}
 
-    public void setPayTime(String payTime) {
-        this.payTime = payTime;
-    }
+	public void setExpressName(String expressName) {
+		this.expressName = expressName;
+	}
 
-    public int getCoin() {
-        return coin;
-    }
+	public long getExpressId() {
+		return expressId;
+	}
 
-    public void setCoin(int coin) {
-        this.coin = coin;
-    }
+	public void setExpressId(long expressId) {
+		this.expressId = expressId;
+	}
 
-    public int getCash() {
-        return cash;
-    }
+	public String getExpressCode() {
+		return expressCode;
+	}
 
-    public void setCash(int cash) {
-        this.cash = cash;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public String getExpressName() {
-        return expressName;
-    }
-
-    public void setExpressName(String expressName) {
-        this.expressName = expressName;
-    }
-
-    public String getExpressId() {
-        return expressId;
-    }
-
-    public void setExpressId(String expressId) {
-        this.expressId = expressId;
-    }
-
-    public String getExpressCode() {
-        return expressCode;
-    }
-
-    public void setExpressCode(String expressCode) {
-        this.expressCode = expressCode;
-    }
+	public void setExpressCode(String expressCode) {
+		this.expressCode = expressCode;
+	}
+	
+	public int getPayStatus() {
+		return payStatus;
+	}
+	
+	public void setPayStatus(int payStatus) {
+		this.payStatus = payStatus;
+	}
+	
+	public String getPayDescription() {
+		return payDescription;
+	}
+	
+	public void setPayDescription(String payDescription) {
+		this.payDescription = payDescription;
+	}
+	
+	public List<GoodsInfoDTO> getGoodsInfoDTOs() {
+		return goodsInfoDTOs;
+	}
+	
+	public void setGoodsInfoDTOs(List<GoodsInfoDTO> goodsInfoDTOs) {
+		this.goodsInfoDTOs = goodsInfoDTOs;
+	}
+	
+	public List<PaymentDTO> getPaymentDTOs() {
+		return paymentDTOs;
+	}
+	
+	public void setPaymentDTOs(List<PaymentDTO> paymentDTOs) {
+		this.paymentDTOs = paymentDTOs;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	public String getDeliveryName() {
+		return deliveryName;
+	}
+	
+	public void setDeliveryName(String deliveryName) {
+		this.deliveryName = deliveryName;
+	}
+	
+	public String getDeliveryPhone() {
+		return deliveryPhone;
+	}
+	
+	public void setDeliveryPhone(String deliveryPhone) {
+		this.deliveryPhone = deliveryPhone;
+	}
+	
+	public String getSubject() {
+		return subject;
+	}
+	
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 }

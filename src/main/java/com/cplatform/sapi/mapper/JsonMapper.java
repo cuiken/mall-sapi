@@ -26,6 +26,10 @@ public class JsonMapper {
 
 	private ObjectMapper mapper;
 
+    public JsonMapper(){
+        this(null);
+    }
+
 	public JsonMapper(Include include) {
 		mapper = new ObjectMapper();
 		//设置输出时包含属性的风格

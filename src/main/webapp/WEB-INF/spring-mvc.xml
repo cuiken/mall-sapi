@@ -40,10 +40,25 @@
     <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->
     <mvc:default-servlet-handler/>
 
+    <mvc:interceptors>
+        <bean class="com.cplatform.sapi.filter.AbstractExcludePathInterceptor">
+            <property name="trustRemoteAddrs">
+                <list>
+                    <value>127.0.0.1</value>
+                    <value>223.68.159.30</value>
+
+                    <value>211.138.195.126</value>
+                    <value>211.138.195.201</value>
+                </list>
+            </property>
+        </bean>
+    </mvc:interceptors>
+
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
                 <prop key="java.lang.Throwable">error/500</prop>
+                <prop key="com.cplatform.sapi.exceptions.AuthorizationException">error/403</prop>
             </props>
         </property>
     </bean>

@@ -1,7 +1,5 @@
 package com.cplatform.sapi.service;
 
-import com.cplatform.sapi.entity.SysRegion;
-import com.cplatform.sapi.repository.SysRegionDao;
 import com.cplatform.sapi.util.AppConfig;
 import com.cplatform.sapi.util.HttpClientUtils;
 import net.sf.json.JSONObject;
@@ -23,13 +21,6 @@ public class ProductService {
 //    private static final int SEARCH_PAGE_ROWS = 10;
     @Autowired
     private AppConfig appConfig;
-
-    @Autowired
-    private SysRegionDao regionDao;
-
-    public SysRegion getRegionByAreaCode(String areaCode) {
-        return regionDao.findUnique("select r from SysRegion r where r.areaCode=? and r.regionLevel=1L", areaCode);
-    }
 
     public String getSearchJson(String keyword, String region_code, String type_id,
                                 String sort, String curpage, int pageSize) throws Exception {

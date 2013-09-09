@@ -1,6 +1,7 @@
 package com.cplatform.sapi.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.dozer.Mapping;
 
@@ -25,7 +26,7 @@ public class ProductSearchDTO {
     private int total;
 
     @JsonProperty("DATA")
-    private List<Data> data;
+    private List<Data> data= Lists.newArrayList();
 
     public String getRet() {
         return ret;

@@ -6,6 +6,8 @@ import com.cplatform.sapi.entity.SysRegion;
 import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.mapper.JsonMapper;
 import com.cplatform.sapi.service.ProductService;
+import com.cplatform.sapi.service.RegionService;
+import com.cplatform.sapi.util.PathUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * User: cuikai
@@ -27,6 +30,12 @@ public class SearchController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private RegionService regionService;
+
+    @Autowired
+    private PathUtil pathUtil;
+
     @RequestMapping(value = "goodsInfo", method = RequestMethod.GET)
     @ResponseBody
     public ProductSearchMapperDTO goodsInfo(HttpServletRequest request) {
@@ -38,7 +47,7 @@ public class SearchController {
         String region_code = request.getParameter("AREA_CODE");
 
 
-        region_code = productService.getRegionByAreaCode(region_code).getRegionCode();
+        region_code = regionService.getRegionByAreaCode(region_code).getRegionCode();
 
 
         String pageSize = request.getParameter("PAGE_SIZE");
@@ -72,6 +81,12 @@ public class SearchController {
 
         JsonMapper mapper = JsonMapper.buildNormalMapper();
         ProductSearchDTO dto = mapper.fromJson(searchJson, ProductSearchDTO.class);
+        List<ProductSearchDTO.Data> datas = dto.getData();
+
+        for (ProductSearchDTO.Data data : datas) {
+            data.setWebPath("http://mall2.12580life.com" + pathUtil.getPathById(2,data.getId())+"N4/"+data.getWebPath());
+        }
+
         return BeanMapper.map(dto, ProductSearchMapperDTO.class);
     }
 }

@@ -1,5 +1,6 @@
 package com.cplatform.sapi.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import org.dozer.Mapping;
@@ -15,16 +16,16 @@ import java.util.List;
 public class QuestionDTO {
 
     @JsonProperty("TOTAL_ROW")
-    private int totalRow;
+    private long totalRow;
 
     @JsonProperty("DATA")
     private List<Data> data = Lists.newArrayList();
 
-    public int getTotalRow() {
+    public long getTotalRow() {
         return totalRow;
     }
 
-    public void setTotalRow(int totalRow) {
+    public void setTotalRow(long totalRow) {
         this.totalRow = totalRow;
     }
 
@@ -52,8 +53,15 @@ public class QuestionDTO {
         @JsonProperty("TERMINAL_ID")
         private String terminalId;
 
-        @JsonProperty("REPLAYS")
+        //@JsonProperty("REPLAYS")
+        @JsonIgnore
         private List<Replay> replays = Lists.newArrayList();
+        
+        @JsonProperty("REPLY_TIME")
+        private String replyTime;
+        
+        @JsonProperty("REPLY_CONTENT")
+        private String replyContent;
 
         public Long getId() {
             return id;
@@ -105,8 +113,32 @@ public class QuestionDTO {
         public void setReplays(List<Replay> replays) {
             this.replays = replays;
         }
+        
 
-        public static class Replay {
+        public String getReplyTime() {
+        	if(this.getReplays().size() > 0){
+        		return this.getReplays().get(0).getReplayTime();
+        	}
+			return replyTime;
+		}
+
+		public void setReplyTime(String replyTime) {
+			this.replyTime = replyTime;
+		}
+
+		public String getReplyContent() {
+			if(this.getReplays().size() > 0){
+				return this.getReplays().get(0).getReplayContent();
+			}
+			return replyContent;
+		}
+
+		public void setReplyContent(String replyContent) {
+			this.replyContent = replyContent;
+		}
+
+
+		public static class Replay {
 
             @JsonProperty("REPLAY_TIME")
             private String replayTime;

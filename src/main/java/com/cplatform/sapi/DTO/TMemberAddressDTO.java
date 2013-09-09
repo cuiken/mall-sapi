@@ -18,12 +18,24 @@ public class TMemberAddressDTO {
 
     @JsonProperty("ZIP_CODE")
     private String zipCode;
+    
+    @JsonProperty("PROVINCE")
+    private SysRegionDTO.Data province;
+    
+    @JsonProperty("CITY")
+    private SysRegionDTO.Data city;
+    
+    @JsonProperty("COUNTY")
+    private SysRegionDTO.Data county;
 
     @JsonProperty("ADDRESS")
     private String address;
 
     @JsonProperty("TERMINAL_ID")
     private String terminalId;
+    
+    @JsonProperty("IS_DEFAULT")
+    private String defaultShipping;
 
     public Long getId() {
         return id;
@@ -57,7 +69,40 @@ public class TMemberAddressDTO {
         this.address = address;
     }
 
-    @Mapping("mobile")
+
+    public SysRegionDTO.Data getProvince() {
+        return province;
+    }
+
+    public void setProvince(SysRegionDTO.Data province) {
+        this.province = province;
+    }
+
+    public SysRegionDTO.Data getCity() {
+        return city;
+    }
+
+    public void setCity(SysRegionDTO.Data city) {
+        this.city = city;
+    }
+
+    public SysRegionDTO.Data getCounty() {
+        return county;
+    }
+
+    public void setCounty(SysRegionDTO.Data county) {
+        this.county = county;
+    }
+
+    public String getDefaultShipping() {
+		return defaultShipping;
+	}
+
+	public void setDefaultShipping(String defaultShipping) {
+		this.defaultShipping = defaultShipping;
+	}
+
+	@Mapping("mobile")
     public String getTerminalId() {
         return terminalId;
     }

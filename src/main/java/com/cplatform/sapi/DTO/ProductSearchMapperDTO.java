@@ -15,7 +15,7 @@ import java.util.List;
 public class ProductSearchMapperDTO {
 
     @JsonProperty("TOTAL_ROW")
-    private int totalRow;
+    private Long totalRow;
 
     @JsonProperty("FLAG")
     private String ret;
@@ -27,16 +27,16 @@ public class ProductSearchMapperDTO {
     private List<Data> data = Lists.newArrayList();
 
     @Mapping("total")
-    public int getTotalRow() {
+    public Long getTotalRow() {
         return totalRow;
     }
 
-    public void setTotalRow(int totalRow) {
+    public void setTotalRow(Long totalRow) {
         this.totalRow = totalRow;
     }
 
     public String getRet() {
-        return ret;
+        return "0";
     }
 
     public void setRet(String ret) {
@@ -44,7 +44,7 @@ public class ProductSearchMapperDTO {
     }
 
     public String getMsg() {
-        return msg;
+        return "success";
     }
 
     public void setMsg(String msg) {

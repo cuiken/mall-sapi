@@ -15,16 +15,16 @@ import java.util.List;
 public class CommentDTO {
 
     @JsonProperty("TOTAL_ROW")
-    private int totalRow;
+    private long totalRow;
 
     @JsonProperty("DATA")
     private List<CommentDataDTO> data = Lists.newArrayList();
 
-    public int getTotalRow() {
+    public long getTotalRow() {
         return totalRow;
     }
 
-    public void setTotalRow(int totalRow) {
+    public void setTotalRow(long totalRow) {
         this.totalRow = totalRow;
     }
 

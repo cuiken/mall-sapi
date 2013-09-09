@@ -33,6 +33,9 @@ public class ProductDTO {
     @JsonProperty("MARKET_PRICE")
     private BigDecimal marketPrice;
 
+    @JsonProperty("STORE_ID")
+    private Long storeId;
+
     @JsonProperty("MALL_PRICE")
     private BigDecimal mallPrice;
 
@@ -101,6 +104,14 @@ public class ProductDTO {
 
     public void setMemberPrice(Map<String, Object> memberPrice) {
         this.memberPrice = memberPrice;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
     }
 
     public Long getLogisticsFeeType() {

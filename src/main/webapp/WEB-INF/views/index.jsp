@@ -52,14 +52,16 @@
         <li><a href="#">收藏列表</a></li>
         <li><a href="${ctx}/api/v1/product/comments">商品评价列表</a></li>
         <li><a href="${ctx}/api/v1/product/questions">商品咨询列表</a></li>
-        <li><a href="${ctx}/api/v1/product/graphicDetail?itemId=5744">商品html描述</a></li>
+        <li><a href="${ctx}/api/v1/product/graphicDetail?">商品html描述</a></li>
         <li><a href="${ctx}/api/v1/product/detail/">商品详细页(5744)</a></li>
+        <li><a href="${ctx}/api/v1/search/goodsInfo?SORT=0&AREA_CODE=0512&CATEGORY_ID=100888&PAGE_NO=1&PAGE_SIZE=30">商品列表(搜索引擎)</a></li>
     </ul>
 </section>
 <section>
     <h1>订单中心</h1>
     <ul>
         <li><a href="#">创建订单</a>(post:/api/v1/order/create)</li>
+        <li><a href="${ctx}/api/v1/order/payedInfo?orderId=">订单支付信息</a></li>
     </ul>
 </section>
 

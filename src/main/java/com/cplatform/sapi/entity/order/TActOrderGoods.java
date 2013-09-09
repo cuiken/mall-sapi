@@ -466,4 +466,9 @@ public class TActOrderGoods {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+    
+    @Transient
+	public int getTotalAmount() {
+		return getPayPrice() * getCount() - getDiscount();
+	}
 }

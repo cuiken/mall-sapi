@@ -22,29 +22,8 @@ public class CreateOrderDTO {
     @JsonProperty("PAY_TYPE")
     private String payType;
 
-    @JsonProperty("COIN")
-    private String coin;
-
-    @JsonProperty("CASH")
-    private BigDecimal cash;
-
-    @JsonProperty("SCORE")
-    private String score;
-
-    @JsonProperty("PRICE")
-    private BigDecimal price;
-
-    @JsonProperty("AMOUNT")
-    private BigDecimal amount;
-
-    @JsonProperty("FARE")
-    private BigDecimal fare;
-
     @JsonProperty("COUNT")
     private int count;
-
-    @JsonProperty("GOOD_NAME")
-    private String goodName;
 
     @JsonProperty("ADDRESS_ID")
     private Long addressId;
@@ -52,6 +31,39 @@ public class CreateOrderDTO {
     @JsonProperty("USER_REMARK")
     private String userRemark;
 
+    @JsonProperty("INVOICE_TYPE")
+    private int invoiceType;
+
+    @JsonProperty("INVOICE_SUBJECT")
+    private String invoiceSubject;
+
+    @JsonProperty("INVOICE_CONTENT")
+    private String invoiceContent;
+
+
+    public int getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(int invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
+    public String getInvoiceSubject() {
+        return invoiceSubject;
+    }
+
+    public void setInvoiceSubject(String invoiceSubject) {
+        this.invoiceSubject = invoiceSubject;
+    }
+
+    public String getInvoiceContent() {
+        return invoiceContent;
+    }
+
+    public void setInvoiceContent(String invoiceContent) {
+        this.invoiceContent = invoiceContent;
+    }
 
     public Long getUserId() {
         return userId;
@@ -77,68 +89,12 @@ public class CreateOrderDTO {
         this.payType = payType;
     }
 
-    public String getCoin() {
-        return coin;
-    }
-
-    public void setCoin(String coin) {
-        this.coin = coin;
-    }
-
-    public BigDecimal getCash() {
-        return cash;
-    }
-
-    public void setCash(BigDecimal cash) {
-        this.cash = cash;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public BigDecimal getFare() {
-        return fare;
-    }
-
-    public void setFare(BigDecimal fare) {
-        this.fare = fare;
-    }
-
     public int getCount() {
         return count;
     }
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-    public String getGoodName() {
-        return goodName;
-    }
-
-    public void setGoodName(String goodName) {
-        this.goodName = goodName;
     }
 
     public Long getAddressId() {
