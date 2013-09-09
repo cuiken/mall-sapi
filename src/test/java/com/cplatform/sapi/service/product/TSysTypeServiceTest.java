@@ -1,12 +1,8 @@
 package com.cplatform.sapi.service.product;
 
-import com.cplatform.sapi.entity.product.TSysType;
 import com.cplatform.sapi.test.SpringContextTest;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
