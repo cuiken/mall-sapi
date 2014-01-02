@@ -45,19 +45,9 @@ public class ItemSaleExt {
 	/** 商品评分 **/
 	private Double rank;
 
-	/** 物流运费 **/
-	private Double logisticsFee;
-
-	/** 物流计算方式 0-不累计1-按数量 **/
-	private Long logisticsFeeType;
-
-	public ItemSaleExt() {
-
-	}
-
 	/**
 	 * 获取 id
-	 * 
+	 *
 	 * @return id
 	 */
 	@SequenceGenerator(name = "seq_item_param", sequenceName = "SEQ_SYS_ITEM_PARAM_ID")
@@ -70,7 +60,7 @@ public class ItemSaleExt {
 
 	/**
 	 * 设置 id
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(Long id) {
@@ -149,23 +139,4 @@ public class ItemSaleExt {
 	public void setRank(Double rank) {
 		this.rank = rank;
 	}
-
-	@Column(name = "LOGISTICS_FEE", precision = 9, scale = 2)
-	public Double getLogisticsFee() {
-		return logisticsFee;
-	}
-
-	public void setLogisticsFee(Double logisticsFee) {
-		this.logisticsFee = logisticsFee;
-	}
-
-	@Column(name = "LOGISTICS_FEE_TYPE", precision = 1, scale = 0)
-	public Long getLogisticsFeeType() {
-		return logisticsFeeType;
-	}
-
-	public void setLogisticsFeeType(Long logisticsFeeType) {
-		this.logisticsFeeType = logisticsFeeType;
-	}
-
 }

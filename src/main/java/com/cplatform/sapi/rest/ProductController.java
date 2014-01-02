@@ -1,13 +1,10 @@
 package com.cplatform.sapi.rest;
 
-import com.cplatform.sapi.DTO.CategoryDTO;
-import com.cplatform.sapi.DTO.CommentDTO;
-import com.cplatform.sapi.DTO.EcKillDTO;
+import com.cplatform.sapi.DTO.*;
 import com.cplatform.sapi.DTO.Product.ProductDTO;
-import com.cplatform.sapi.DTO.QuestionDTO;
+import com.cplatform.sapi.entity.Member;
 import com.cplatform.sapi.entity.TChannelType;
 import com.cplatform.sapi.entity.TSysType;
-import com.cplatform.sapi.entity.order.Deposit;
 import com.cplatform.sapi.entity.order.TActOrder;
 import com.cplatform.sapi.entity.order.TActOrderGoods;
 import com.cplatform.sapi.entity.product.ItemPrice;
@@ -19,11 +16,10 @@ import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.orm.Page;
 import com.cplatform.sapi.orm.PageRequest;
 import com.cplatform.sapi.orm.PropertyFilter;
-import com.cplatform.sapi.service.ItemSaleService;
-import com.cplatform.sapi.service.ProfileService;
-import com.cplatform.sapi.service.RegionService;
+import com.cplatform.sapi.service.*;
 import com.cplatform.sapi.util.AppConfig;
 import com.cplatform.sapi.util.MediaTypes;
+import com.cplatform.sapi.util.PathUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +29,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,15 +42,22 @@ public class ProductController {
     private final Page<ItemSale> page = new Page<ItemSale>(100);
 
     private Page<TItemComment> commentPage = new Page<TItemComment>(10);
-
+    @Autowired
     private ItemSaleService itemSaleService;
-
+    @Autowired
     private RegionService regionService;
-
+    @Autowired
     private ProfileService profileService;
 
     @Autowired
+    private AuthService authService;
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private AppConfig appConfig;
+    @Autowired
+    private PathUtil pathUtil;
 
     @RequestMapping(value = "category", method = RequestMethod.GET)
     @ResponseBody
@@ -103,15 +105,41 @@ public class ProductController {
         }
 
         ProductDTO dto = BeanMapper.map(itemSale, ProductDTO.class);
+        dto.setFare(itemSale.getLogisticsFee());
+        dto.setLogisticsFeeType(itemSale.getLogisticsFeeType());
         if (ext != null) {
-            dto.setFare(ext.getLogisticsFee());
-            dto.setLogisticsFeeType(ext.getLogisticsFeeType());
             dto.setSoldCount(ext.getSaleNum().intValue());
         }
         dto.setMemberPrice(memPrice);
 
-        dto.setImages(Lists.newArrayList(itemSale.getImgPath()));
+        List<SysFileImg> itemSaleImgs = itemSaleService.getItemSaleImgs(itemSale.getId());
+        List<String> imgs = Lists.newArrayList();
+        for (SysFileImg fileImg : itemSaleImgs) {
+            imgs.add(appConfig.getServerHost() + pathUtil.getPathById(2, id) + "N1/" + fileImg.getFileName());
+        }
+        if (StringUtils.isNotBlank(itemSale.getImgPath())) {
+            imgs.add(appConfig.getServerHost() + pathUtil.getPathById(2, id) + "N1/" + itemSale.getImgPath());
+        }
+        dto.setImages(imgs);
         return dto;
+    }
+
+    @RequestMapping(value = "_detail")
+    @ResponseBody
+    public ItemSaleDataDTO detail2(@RequestParam(value = "saleId") String itemId) throws Exception {
+        return itemSaleService.convert_v2_to_v1_DTO(itemId);
+    }
+
+    @RequestMapping("finalPrice")
+    @ResponseBody
+    public int getRealPrice(@RequestParam(value = "itemId") Long itemId,
+                            @RequestParam(value = "userId") Long userId,
+                            @RequestParam(value = "orderType", required = false) String orderType,
+                            @RequestParam(value = "businessId", required = false) String businessId) throws Exception {
+        Member user = authService.getMember(userId);
+        ItemSaleDataDTO item = itemSaleService.convert_v2_to_v1_DTO(String.valueOf(itemId));
+        item.setCount(1);
+        return orderService.initGoodsPrice(item, user, businessId, orderType);
     }
 
     @RequestMapping(value = "graphicDetail", method = RequestMethod.GET, produces = MediaTypes.TEXT_PLAIN_UTF_8)
@@ -182,15 +210,15 @@ public class ProductController {
         filters.add(new PropertyFilter("EQL_iseckill", "1"));
         filters.add(new PropertyFilter("EQL_isValid", "1"));
 
-        page.setOrderBy("createTime");
-        page.setOrderDir(PageRequest.Sort.DESC);
+        page.setOrderBy("saleStartTime");
+        page.setOrderDir(PageRequest.Sort.ASC);
         List<ItemSale> itemSales = itemSaleService.searchItemSale(page, filters).getResult();
 
         List<EcKillDTO> killDTOs = Lists.newArrayList();
         for (ItemSale itemSale : itemSales) {
-            killDTOs.add(converToDTO(itemSale));
+            killDTOs.add(itemSaleService.converToDTO(itemSale));
         }
-        // return encodeData(killDTOs);
+
         return killDTOs;
     }
 
@@ -200,9 +228,8 @@ public class ProductController {
         String itemId = request.getParameter("itemId");
 
         ItemSale itemSale = itemSaleService.getItemSale(Long.valueOf(itemId));
-        // EcKillDTO dto = converToDTO(itemSale);
-        // return encodeData(dto);
-        return converToDTO(itemSale);
+
+        return itemSaleService.converToDTO(itemSale);
     }
 
     @RequestMapping(value = "goodStatus", method = RequestMethod.GET)
@@ -213,39 +240,9 @@ public class ProductController {
         Validate.notNull(userId, "用户ID不能为空");
         ItemSale itemSale = itemSaleService.getItemSale(Long.valueOf(itemId));
         List<TActOrderGoods> goodses = itemSale.getOrderGoodses();
-        int status = 0;
-        if (goodses.size() == 0) { // 未购买
-            status = 0;
-        } else {
-            for (TActOrderGoods goods : goodses) {
-                TActOrder order = goods.getOrder();
-                if (Long.valueOf(userId) == order.getUserId()) {
-                    status = order.getStatus();
-                    if (status == 2) {
-                        break;
-                    } else {
-                        status = 1;
-                        continue;
-                    }
-                }
-            }
-        }
-        int flag = 0;
-        String msg = "";
-        switch (status) {
-            case 0:
-                msg = "未购买";
-                break;
-            case 1:
-                flag = 1;
-                msg = "待付款";
-                break;
-            case 2:
-                flag = 2;
-                msg = "已付款";
-                break;
-        }
-        return "{\"flag\":\"" + flag + "\",\"msg\":\"" + msg + "\"}";
+        ItemSaleService.GoodStatus status = itemSaleService.getGoodStatus(goodses, userId);
+
+        return "{\"flag\":\"" + status.getFlag() + "\",\"msg\":\"" + status.getMsg() + "\"}";
     }
 
     /**
@@ -256,11 +253,11 @@ public class ProductController {
      */
     @RequestMapping(value = "deposit", method = RequestMethod.GET)
     @ResponseBody
-    public List<Deposit> deposit(HttpServletRequest request) {
+    public List<GCheapDTO.Data> deposit(HttpServletRequest request) {
         String userId = request.getParameter("userId");
         String itemIds = appConfig.getDepositItemIds();
         String[] idsStrings = itemIds.split(",");
-        List<Deposit> deposits = new ArrayList<Deposit>();
+        List<GCheapDTO.Data> deposits = Lists.newArrayList();
         if (idsStrings != null && idsStrings.length > 0) {
             for (int i = 0; i < idsStrings.length; i++) {
                 ItemSale itemSale = itemSaleService.getItemSale(Long.valueOf(idsStrings[i]));
@@ -272,7 +269,7 @@ public class ProductController {
                         if (null != order) {
                             if (Long.parseLong(userId) == order.getUserId()) {
 
-                                Deposit deposit = new Deposit();
+                                GCheapDTO.Data deposit = new GCheapDTO.Data();
                                 deposit.setOrderId(order.getId());
                                 deposit.setGoodsId(itemSale.getId());
                                 deposit.setGoodsName(goods.getGoodsSubject());
@@ -290,36 +287,5 @@ public class ProductController {
             }
         }
         return deposits;
-    }
-
-    // private String encodeData(Object object) {
-    // JsonMapper mapper = JsonMapper.buildNormalMapper();
-    // String base64 = Encodes.encodeBase64(mapper.toJson(object).getBytes());
-    // return Encodes.encodeHex(base64.getBytes());
-    // }
-
-    private EcKillDTO converToDTO(ItemSale itemSale) {
-        EcKillDTO dto = BeanMapper.map(itemSale, EcKillDTO.class);
-        List<String> thumbs = Lists.newArrayList();
-        for (SysFileImg fileImg : itemSale.getSysFileImgs()) {
-            thumbs.add(fileImg.getFileName());
-        }
-        dto.setThumbs(thumbs);
-        return dto;
-    }
-
-    @Autowired
-    public void setRegionService(RegionService regionService) {
-        this.regionService = regionService;
-    }
-
-    @Autowired
-    public void setItemSaleService(ItemSaleService itemSaleService) {
-        this.itemSaleService = itemSaleService;
-    }
-
-    @Autowired
-    public void setProfileService(ProfileService profileService) {
-        this.profileService = profileService;
     }
 }

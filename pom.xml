@@ -12,14 +12,14 @@
     <properties>
         <!--主要依赖版本-->
         <spring.version>3.2.2.RELEASE</spring.version>
-        <hibernate.version>3.6.10.Final</hibernate.version>
-        <guava.version>14.0.1</guava.version>
+        <hibernate.version>4.2.5.Final</hibernate.version>
+        <guava.version>15.0</guava.version>
         <jackson.version>2.2.2</jackson.version>
         <slf4j.version>1.7.5</slf4j.version>
-        <logback.version>1.0.11</logback.version>
+        <logback.version>1.0.13</logback.version>
         <commons-lang3.version>3.1</commons-lang3.version>
-        <httpclient.version>3.1</httpclient.version>
-
+        <httpclient.version>4.3.1</httpclient.version>
+        <mockito.version>1.9.5</mockito.version>
         <junit.version>4.11</junit.version>
         <jetty.version>7.6.10.v20130312</jetty.version>
 
@@ -27,7 +27,7 @@
         <jdk.version>1.6</jdk.version>
         <jdbc.driver.groupId>com.alibaba</jdbc.driver.groupId>
         <jdbc.driver.artifactId>druid</jdbc.driver.artifactId>
-        <jdbc.driver.version>0.2.22</jdbc.driver.version>
+        <jdbc.driver.version>1.0.1</jdbc.driver.version>
     </properties>
 
     <dependencies>
@@ -56,9 +56,13 @@
                     <groupId>commons-logging</groupId>
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
                 <!--<exclusion>-->
-                    <!--<groupId>commons-lang</groupId>-->
-                    <!--<artifactId>commons-lang</artifactId>-->
+                <!--<groupId>commons-lang</groupId>-->
+                <!--<artifactId>commons-lang</artifactId>-->
                 <!--</exclusion>-->
             </exclusions>
         </dependency>
@@ -66,11 +70,23 @@
             <groupId>com.cplatform.pay</groupId>
             <artifactId>com.cplatform.pay.client</artifactId>
             <version>0.0.10</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.cplatform.order</groupId>
             <artifactId>com.cplatform.order.client</artifactId>
             <version>0.0.8</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- 订单结束-->
 
@@ -154,12 +170,6 @@
             <version>${hibernate.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <version>1.0.1.Final</version>
-        </dependency>
-
         <!-- j2ee web spec -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -209,7 +219,7 @@
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-hibernate3</artifactId>
+            <artifactId>jackson-datatype-hibernate4</artifactId>
             <version>${jackson.version}</version>
         </dependency>
 
@@ -257,6 +267,12 @@
             <version>${slf4j.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.log4jdbc</groupId>
+            <artifactId>log4jdbc</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -266,8 +282,8 @@
 
         <!-- httpclient -->
         <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
             <version>${httpclient.version}</version>
             <exclusions>
                 <exclusion>
@@ -291,60 +307,89 @@
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
-        
-         <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-jms</artifactId>
-          <version>${spring.version}</version>
-         </dependency>
-      
-          <dependency>
-          <groupId>com.cplatform</groupId>
-          <artifactId>com.cplatform.message</artifactId>
-          <version>1.0.0</version>
-          </dependency>
 
-	      <dependency>
-	          <groupId>com.cplatform</groupId>
-	          <artifactId>com.cplatform.com.message</artifactId>
-	          <version>1.0.0</version>
-	      </dependency>
-	      
-	      <dependency>
-          <groupId>org.apache.activemq</groupId>
-          <artifactId>activemq-core</artifactId>
-          <version>5.7.0</version>
-          <exclusions>
-              <exclusion>
-                  <groupId>org.apache.activemq.protobuf</groupId>
-                  <artifactId>activemq-protobuf</artifactId>
-              </exclusion>
-              <exclusion>
-                  <groupId>org.springframework.osgi</groupId>
-                  <artifactId>spring-osgi-core</artifactId>
-              </exclusion>
-              <exclusion>
-                  <groupId>org.osgi</groupId>
-                  <artifactId>org.osgi.core</artifactId>
-              </exclusion>
-              <exclusion>
-                  <groupId>commons-logging</groupId>
-                  <artifactId>commons-logging</artifactId>
-              </exclusion>
-          </exclusions>
-      </dependency>
-	      
-	      <dependency>
-          <groupId>com.cplatform</groupId>
-          <artifactId>dbhelp</artifactId>
-          <version>1.2</version>
-          <exclusions>
-              <exclusion>
-                  <groupId>commons-logging</groupId>
-                  <artifactId>commons-logging</artifactId>
-              </exclusion>
-          </exclusions>
-      		</dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-jms</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; 短信相关&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.cplatform</groupId>-->
+            <!--<artifactId>com.cplatform.message</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>com.cplatform</groupId>-->
+            <!--<artifactId>com.cplatform.com.message</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
+        <!-- end -->
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.activemq</groupId>-->
+            <!--<artifactId>activemq-core</artifactId>-->
+            <!--<version>5.7.0</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.apache.activemq.protobuf</groupId>-->
+                    <!--<artifactId>activemq-protobuf</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.osgi</groupId>-->
+                    <!--<artifactId>spring-osgi-core</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.osgi</groupId>-->
+                    <!--<artifactId>org.osgi.core</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>commons-logging</groupId>-->
+                    <!--<artifactId>commons-logging</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+
+        <!--cache-->
+        <dependency>
+            <groupId>com.google.code.simple-spring-memcached</groupId>
+            <artifactId>xmemcached-provider</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.simple-spring-memcached</groupId>
+            <artifactId>spring-cache</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.thimbleware.jmemcached</groupId>
+            <artifactId>jmemcached-core</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--end-->
+
+        <dependency>
+            <groupId>com.cplatform</groupId>
+            <artifactId>dbhelp</artifactId>
+            <version>1.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>
@@ -388,7 +433,52 @@
                     <warName>${project.artifactId}</warName>
                 </configuration>
             </plugin>
-            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <argLine>-Xmx256M</argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>2.12.4</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- clean插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            <!-- resource插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+            </plugin>
+            <!-- install插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            <!-- eclipse插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>false</downloadJavadocs>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

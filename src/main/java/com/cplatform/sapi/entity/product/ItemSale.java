@@ -419,11 +419,15 @@ public class ItemSale {
 
     private BigDecimal iseckillPrice;
 
+    /** 物流运费 **/
+    private Double logisticsFee;
+
+    /** 物流计算方式 0-不累计1-按数量 **/
+    private Long logisticsFeeType;
+
     private List<MemberFavorite> memberFavorites = Lists.newArrayList();
 
     private List<TItemComment> comments = Lists.newArrayList();
-
-    private List<SysFileImg> sysFileImgs = Lists.newArrayList();
 
     private List<TActOrderGoods> orderGoodses = Lists.newArrayList();
 
@@ -864,15 +868,6 @@ public class ItemSale {
     }
 
     @OneToMany(mappedBy = "itemSale", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
-    public List<SysFileImg> getSysFileImgs() {
-        return sysFileImgs;
-    }
-
-    public void setSysFileImgs(List<SysFileImg> sysFileImgs) {
-        this.sysFileImgs = sysFileImgs;
-    }
-
-    @OneToMany(mappedBy = "itemSale", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
     public List<TActOrderGoods> getOrderGoodses() {
         return orderGoodses;
     }
@@ -926,6 +921,24 @@ public class ItemSale {
 
     public void setAllowScore(Long allowScore) {
         this.allowScore = allowScore;
+    }
+
+    @Column(name = "LOGISTICS_FEE", precision = 9, scale = 2)
+    public Double getLogisticsFee() {
+        return logisticsFee;
+    }
+
+    public void setLogisticsFee(Double logisticsFee) {
+        this.logisticsFee = logisticsFee;
+    }
+
+    @Column(name = "LOGISTICS_FEE_TYPE", precision = 1, scale = 0)
+    public Long getLogisticsFeeType() {
+        return logisticsFeeType;
+    }
+
+    public void setLogisticsFeeType(Long logisticsFeeType) {
+        this.logisticsFeeType = logisticsFeeType;
     }
 
     @Override

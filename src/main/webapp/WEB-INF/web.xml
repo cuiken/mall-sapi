@@ -7,8 +7,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath*:/applicationContext.xml,
-            classpath*:/applicationContext-order.xml
+            classpath*:/applicationContext*.xml
         </param-value>
     </context-param>
     <context-param>
@@ -40,7 +39,7 @@
     <!-- Hibernate Open Session in View filter-->
     <filter>
         <filter-name>hibernateOpenSessionInViewFilter</filter-name>
-        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+        <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -80,5 +79,8 @@
         <error-code>404</error-code>
         <location>/WEB-INF/views/error/404.jsp</location>
     </error-page>
-
+    <error-page>
+        <error-code>400</error-code>
+        <location>/WEB-INF/views/error/400.jsp</location>
+    </error-page>
 </web-app>

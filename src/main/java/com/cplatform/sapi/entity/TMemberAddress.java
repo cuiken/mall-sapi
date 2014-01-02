@@ -54,7 +54,7 @@ public class TMemberAddress extends IdEntity {
         this.remark = remark;
     }
 
-    @Column(name = "REGION")
+    @Column(name = "REGION",nullable = false)
     public String getRegion() {
         return this.region;
     }

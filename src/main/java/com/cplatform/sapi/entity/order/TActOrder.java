@@ -37,12 +37,12 @@ public class TActOrder {
 	/**
 	 * serialVersionUID
 	 */
-	private static final long serialVersionUID = -2680122655463160355L;
+	private static final Long serialVersionUID = -2680122655463160355L;
 
 	/**
 	 * 业务类型
 	 */
-	private int actType;
+	private Long actType;
 
 	/**
 	 * close Description
@@ -97,7 +97,7 @@ public class TActOrder {
 	/**
 	 * 业务订单号
 	 */
-	private long id;
+	private Long id;
 
 	/**
 	 * payDescription
@@ -117,7 +117,7 @@ public class TActOrder {
 	/**
 	 * 商户Id
 	 */
-	private long shopId;
+	private Long shopId;
 
 	/**
 	 * 商户标题
@@ -132,7 +132,7 @@ public class TActOrder {
 	/**
 	 * userId
 	 */
-	private long userId;
+	private Long userId;
 
 	private String payAmount;
 
@@ -150,7 +150,7 @@ public class TActOrder {
 
 	private String remark;
 
-	private int orderType;
+	private Long orderType;
 
 	private String extInfo;
 
@@ -267,7 +267,7 @@ public class TActOrder {
 	 * @return actType
 	 */
 	@Column(name = "act_type")
-	public int getActType() {
+	public Long getActType() {
 		return actType;
 	}
 
@@ -338,7 +338,7 @@ public class TActOrder {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gen")
 	@SequenceGenerator(name = "gen", sequenceName = "seq_act_order")
 	@Column(name = "id")
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -378,7 +378,7 @@ public class TActOrder {
 	 * @return shopId
 	 */
 	@Column(name = "shop_id")
-	public long getShopId() {
+	public Long getShopId() {
 		return shopId;
 	}
 
@@ -430,7 +430,7 @@ public class TActOrder {
 	 * @return userId
 	 */
 	@Column(name = "user_id")
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
@@ -440,7 +440,7 @@ public class TActOrder {
 	 * @param actType
 	 *            actType
 	 */
-	public void setActType(int actType) {
+	public void setActType(Long actType) {
 		this.actType = actType;
 	}
 
@@ -510,7 +510,7 @@ public class TActOrder {
 	 * @param id
 	 *            id
 	 */
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -550,7 +550,7 @@ public class TActOrder {
 	 * @param shopId
 	 *            shopId
 	 */
-	public void setShopId(long shopId) {
+	public void setShopId(Long shopId) {
 		this.shopId = shopId;
 	}
 
@@ -580,7 +580,7 @@ public class TActOrder {
 	 * @param userId
 	 *            userId
 	 */
-	public void setUserId(long userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -635,11 +635,11 @@ public class TActOrder {
 	}
 
 	@Column(name = "ORDER_TYPE")
-	public int getOrderType() {
+	public Long getOrderType() {
 		return orderType;
 	}
 
-	public void setOrderType(int orderType) {
+	public void setOrderType(Long orderType) {
 		this.orderType = orderType;
 	}
 

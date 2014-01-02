@@ -9,90 +9,93 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
-	@Value("${WebApp.Root:/}")
-	private String webRoot;
+    @Value("${WebApp.Root:/}")
+    private String webRoot;
 
-	@Value("${interface.iteminfo}")
-	private String interfaceItemInfo;
+    @Value("${Search_Http_Url}")
+    private String Search_Http_Url;
 
-	@Value("${Search_Http_Url}")
-	private String Search_Http_Url;
+    @Value("${deposit.item_ids}")
+    private String depositItemIds;
 
-	@Value("${httpclient.So_Timeout}")
-	private Integer So_Timeout;
+    @Value("${boss.request.productId}")
+    private String productId;
 
-	@Value("${httpclient.Connection_Manager_Timeout}")
-	private Integer Connection_Manager_Timeout;
+    @Value("${boss.request.src}")
+    private String reqSrc;
 
-	@Value("${order.expiretime:172800}")
-	private int orderExpireTime;
+    @Value("${server.host}")
+    private String serverHost;
 
-	@Value("${jms.sms.destination:q_sms_mt_act_2}")
-	private String jmsSmsDestination;
+    @Value("${auction.order.url}")
+    private String auctionOrderUrl;
 
-	@Value("${jms.sms.spcode:106585854}")
-	private String jmsSmsSpcode;
+    @Value("${order.type.common_time}")
+    private int commonOrderExpireTime;
 
-	@Value("${template.order.pay}")
-	private String templateOrderPay;
+    @Value("${order.type.spike_time}")
+    private int spikeOrderExpireTime;
 
-	@Value("${deposit.item_ids}")
-	private String depositItemIds;
+    @Value("${order.type.auction_time}")
+    private int auctionOrderExpireTime;
+    @Value("${order.type.special_time}")
+    private int specialOrderExpireTime;
 
-	public String getTemplateOrderPay() {
-		return templateOrderPay;
-	}
+    @Value("${balance.query.url}")
+    private String balanceQueryUrl;
 
-	public void setTemplateOrderPay(String templateOrderPay) {
-		this.templateOrderPay = templateOrderPay;
-	}
+    @Value("${union.member.url}")
+    private String unionMemberUri;
 
-	public String getJmsSmsSpcode() {
-		return jmsSmsSpcode;
-	}
+    public String getUnionMemberUri() {
+        return unionMemberUri;
+    }
 
-	public void setJmsSmsSpcode(String jmsSmsSpcode) {
-		this.jmsSmsSpcode = jmsSmsSpcode;
-	}
+    public String getBalanceQueryUrl() {
+        return balanceQueryUrl;
+    }
 
-	public String getJmsSmsDestination() {
-		return jmsSmsDestination;
-	}
+    public int getCommonOrderExpireTime() {
+        return commonOrderExpireTime;
+    }
 
-	public void setJmsSmsDestination(String jmsSmsDestination) {
-		this.jmsSmsDestination = jmsSmsDestination;
-	}
+    public int getSpikeOrderExpireTime() {
+        return spikeOrderExpireTime;
+    }
 
-	public int getOrderExpireTime() {
-		return orderExpireTime;
-	}
+    public int getAuctionOrderExpireTime() {
+        return auctionOrderExpireTime;
+    }
 
-	public void setOrderExpireTime(int orderExpireTime) {
-		this.orderExpireTime = orderExpireTime;
-	}
+    public String getAuctionOrderUrl() {
+        return auctionOrderUrl;
+    }
 
-	public String getWebRoot() {
-		return webRoot;
-	}
+    public String getServerHost() {
+        return serverHost;
+    }
 
-	public String getInterfaceItemInfo() {
-		return interfaceItemInfo;
-	}
+    public String getProductId() {
+        return productId;
+    }
 
-	public String getSearch_Http_Url() {
-		return Search_Http_Url;
-	}
+    public String getReqSrc() {
+        return reqSrc;
+    }
 
-	public Integer getConnection_Manager_Timeout() {
-		return Connection_Manager_Timeout;
-	}
+    public String getWebRoot() {
+        return webRoot;
+    }
 
-	public Integer getSo_Timeout() {
-		return So_Timeout;
-	}
+    public String getDepositItemIds() {
+        return depositItemIds;
+    }
 
-	public String getDepositItemIds() {
-		return depositItemIds;
-	}
+    public String getSearch_Http_Url() {
+        return Search_Http_Url;
+    }
 
+    public int getSpecialOrderExpireTime() {
+        return specialOrderExpireTime;
+    }
 }

@@ -76,6 +76,9 @@ public class GCheapDTO {
 		@JsonProperty("createTime")
 		private String createTime;
 
+		@JsonProperty("payTime")
+		private String payTime;
+
 		public Long getBusinessId() {
 			return businessId;
 		}
@@ -162,6 +165,14 @@ public class GCheapDTO {
 
 		public void setGoodsName(String goodsName) {
 			this.goodsName = goodsName;
+		}
+
+		public String getPayTime() {
+			return payTime;
+		}
+
+		public void setPayTime(String payTime) {
+			this.payTime = payTime;
 		}
 
 	}

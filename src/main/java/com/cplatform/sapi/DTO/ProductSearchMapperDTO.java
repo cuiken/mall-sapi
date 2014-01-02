@@ -73,10 +73,13 @@ public class ProductSearchMapperDTO {
         private BigDecimal marketPrice;
 
         @JsonProperty("MALL_PRICE")
-        private BigDecimal mallPrice;
+        private BigDecimal shopPrice;
 
         @JsonProperty("MEMBER_PRICE")
-        private BigDecimal memberPrice;
+        private BigDecimal redPrice;
+
+        @JsonProperty("MIN_PRICE")
+        private BigDecimal minPrice;
 
         @JsonProperty("SOLD_COUNT")
         private int soldCount;
@@ -122,20 +125,20 @@ public class ProductSearchMapperDTO {
             this.marketPrice = marketPrice;
         }
 
-        public BigDecimal getMallPrice() {
-            return mallPrice;
+        public BigDecimal getShopPrice() {
+            return shopPrice;
         }
 
-        public void setMallPrice(BigDecimal mallPrice) {
-            this.mallPrice = mallPrice;
+        public void setShopPrice(BigDecimal shopPrice) {
+            this.shopPrice = shopPrice;
         }
 
-        public BigDecimal getMemberPrice() {
-            return memberPrice;
+        public BigDecimal getRedPrice() {
+            return redPrice;
         }
 
-        public void setMemberPrice(BigDecimal memberPrice) {
-            this.memberPrice = memberPrice;
+        public void setRedPrice(BigDecimal redPrice) {
+            this.redPrice = redPrice;
         }
 
         public int getSoldCount() {
@@ -168,6 +171,14 @@ public class ProductSearchMapperDTO {
 
         public void setAllowScore(String allowScore) {
             this.allowScore = allowScore;
+        }
+
+        public BigDecimal getMinPrice() {
+            return minPrice;
+        }
+
+        public void setMinPrice(BigDecimal minPrice) {
+            this.minPrice = minPrice;
         }
     }
 

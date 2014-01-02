@@ -26,7 +26,7 @@ public class ProductSearchDTO {
     private int total;
 
     @JsonProperty("DATA")
-    private List<Data> data= Lists.newArrayList();
+    private List<Data> data = Lists.newArrayList();
 
     public String getRet() {
         return ret;
@@ -117,6 +117,9 @@ public class ProductSearchDTO {
 
         @JsonProperty("G_OTHER_PRICE")
         private BigDecimal otherPrice;
+
+        @JsonProperty("G_MIN_PRICE")
+        private BigDecimal minPrice;
 
         @JsonProperty("G_REGION_CODE")
         private String regionCode;
@@ -282,6 +285,14 @@ public class ProductSearchDTO {
 
         public void setRegionCode(String regionCode) {
             this.regionCode = regionCode;
+        }
+
+        public BigDecimal getMinPrice() {
+            return minPrice;
+        }
+
+        public void setMinPrice(BigDecimal minPrice) {
+            this.minPrice = minPrice;
         }
     }
 

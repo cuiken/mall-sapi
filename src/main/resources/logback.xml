@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-		</encoder>
-	</appender>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>logs/mall-sapi.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/mall-sapi.%d{yyyy-MM-dd}.log</fileNamePattern>
-		</rollingPolicy>
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-		</encoder>
-	</appender>
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home}/log/mall-sapi.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home}/log/mall-sapi.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
     <appender name="businessLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/business.log</file>
+        <file>${catalina.home}/log/business.log</file>
         <!-- 按每小时滚动文件，如果一个小时内达到10M也会滚动文件, 滚动文件将会压缩成zip格式 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/business-%d{yyyy-MM-dd_HH}.%i.zip</fileNamePattern>
+            <fileNamePattern>${catalina.home}/log/business/business-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
+                <maxFileSize>20MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <!-- 独立的pattern -->
@@ -31,19 +32,82 @@
         </encoder>
     </appender>
 
-	<!-- project default level -->
-	<logger name="com.cplatform.sapi" level="INFO" />
+    <appender name="businessErrorLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home}/log/business-error.log</file>
+        <!-- 按每小时滚动文件，如果一个小时内达到10M也会滚动文件, 滚动文件将会压缩成zip格式 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home}/log/business/error/business-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>20MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 独立的pattern -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS},%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="httpLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home}/log/http.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home}/log/http/http-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>20MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 独立的pattern -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS},%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="orderLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.home}/log/order.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home}/log/order/order-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>20MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 独立的pattern -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS},%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- project default level -->
+    <logger name="com.cplatform.sapi" level="INFO"/>
+
+    <logger name="com.cplatform.SQL" level="INFO"/>
+
+    <logger name="com.cplatform.order" level="DEBUG" additivity="false">
+        <appender-ref ref="orderLogFile"/>
+    </logger>
+    <logger name="com.cplatform.pay" level="DEBUG" additivity="false">
+        <appender-ref ref="orderLogFile"/>
+    </logger>
+    <logger name="com.cplatform.act" level="DEBUG" additivity="false">
+        <appender-ref ref="orderLogFile"/>
+    </logger>
 
     <!-- business log 使用独立的appender，不继承Root的appender -->
     <logger name="business" level="INFO" additivity="false">
-        <appender-ref ref="businessLogFile" />
+        <appender-ref ref="businessLogFile"/>
+    </logger>
+    <logger name="businessError" level="INFO" additivity="false">
+        <appender-ref ref="businessErrorLogFile"/>
     </logger>
 
-	<!--log4jdbc -->
-	<!--<logger name="jdbc.sqltiming" level="INFO"/>-->
+    <!-- 请求第三方地址 log 使用独立的appender，不继承Root的appender -->
+    <logger name="http" level="INFO" additivity="false">
+        <appender-ref ref="httpLogFile"/>
+    </logger>
 
-	<root level="WARN">
-		<appender-ref ref="console" />
-		<appender-ref ref="rollingFile" />
-	</root>
+    <!--log4jdbc -->
+    <logger name="jdbc.sqltiming" level="INFO"/>
+
+    <root level="WARN">
+        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
+    </root>
 </configuration>

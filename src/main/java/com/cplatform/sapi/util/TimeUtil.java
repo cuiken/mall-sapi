@@ -1,14 +1,15 @@
 package com.cplatform.sapi.util;
 
+import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.commons.lang3.time.DateUtils;
-import org.apache.log4j.Logger;
 
 /**
  * 时间/日期工具类
@@ -18,7 +19,7 @@ import org.apache.log4j.Logger;
  */
 public class TimeUtil {
 
-	private static final Logger logger = Logger.getLogger(TimeUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(TimeUtil.class);
 
 	private static final String EMPTY = "";
 

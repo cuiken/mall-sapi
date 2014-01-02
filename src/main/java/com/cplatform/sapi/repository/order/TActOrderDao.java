@@ -10,5 +10,10 @@ import org.springframework.stereotype.Component;
  * Time: 上午9:46
  */
 @Component
-public class TActOrderDao extends HibernateDao<TActOrder,Long>{
+public class TActOrderDao extends HibernateDao<TActOrder, Long> {
+
+    public TActOrder getBusinessOrder(Long userId, String businessId) {
+
+        return findUnique("from TActOrder t where t.userId=? and t.extInfo=?", userId, businessId);
+    }
 }

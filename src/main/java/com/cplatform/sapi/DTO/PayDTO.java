@@ -18,16 +18,26 @@ public class PayDTO {
     private Long orderId;
 
     @JsonProperty("PAY_TYPE")
-    private String payType;
+    private String payType; //支付方式：wap or web
 
     @JsonProperty("SCORE")
-    private int score;
+    private int score;  //积分
 
     @JsonProperty("COIN")
-    private int coin;
+    private int coin;   //商城币
+
+    @JsonProperty("BALANCE")
+    private int balance;    //话费
+
+    /**
+     * 支付类型：现金，商城币...
+     * @see com.cplatform.sapi.service.PayFormChoose
+     */
+    @JsonProperty("PAY_FORM")
+    private String payForm;
 
     @JsonProperty("CHANNEL")
-    private String channel;
+    private String channel;   //现金支付渠道
 
     @JsonProperty("RETURN_URL")
     private String returnURL;
@@ -86,6 +96,22 @@ public class PayDTO {
 
     public void setReturnURL(String returnURL) {
         this.returnURL = returnURL;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public String getPayForm() {
+        return payForm;
+    }
+
+    public void setPayForm(String payForm) {
+        this.payForm = payForm;
     }
 
     @Override

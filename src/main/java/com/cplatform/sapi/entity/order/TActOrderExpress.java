@@ -36,7 +36,7 @@ public class TActOrderExpress implements Serializable {
 	private String cellphoneNumber;
 
 	/** 物流公司Id */
-	private long expressCompanyId;
+	private Long expressCompanyId;
 
 	/** 物流公司名称 */
 	private String expressCompanyName;
@@ -123,7 +123,7 @@ public class TActOrderExpress implements Serializable {
 	 * @return expressCompanyId
 	 */
 	@Column(name = "express_Company_Id")
-	public long getExpressCompanyId() {
+	public Long getExpressCompanyId() {
 		return expressCompanyId;
 	}
 
@@ -286,7 +286,7 @@ public class TActOrderExpress implements Serializable {
 	 * @param expressCompanyId
 	 *            expressCompanyId
 	 */
-	public void setExpressCompanyId(long expressCompanyId) {
+	public void setExpressCompanyId(Long expressCompanyId) {
 		this.expressCompanyId = expressCompanyId;
 	}
 

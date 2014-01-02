@@ -1,7 +1,7 @@
 package com.cplatform.sapi.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate3.Hibernate3Module;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 
 /**
  * User: cuikai
@@ -11,6 +11,6 @@ import com.fasterxml.jackson.datatype.hibernate3.Hibernate3Module;
 public class HibernateAwareObjectMapper extends ObjectMapper {
 
     public HibernateAwareObjectMapper() {
-        registerModule(new Hibernate3Module());
+        registerModule(new Hibernate4Module());
     }
 }

@@ -1,112 +1,128 @@
 package com.cplatform.sapi.DTO;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.dozer.Mapping;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * User: cuikai
- * Date: 13-8-13
- * Time: 下午4:20
+ * User: cuikai Date: 13-8-13 Time: 下午4:20
  */
 public class EcKillDTO {
 
-    private Long id;
-    private String remark;
-    private String name;
-    private String imgPath;
-    private Float marketPrice;
-    private Float killPrice;
-    private List<String> thumbs;
+	private Long id;
 
-    public List<String> getThumbs() {
-        return thumbs;
-    }
+	private String remark;
 
-    public void setThumbs(List<String> thumbs) {
-        this.thumbs = thumbs;
-    }
+	private String name;
 
-    /**
-     * 销售有效开始时间 *
-     */
-    private String saleStartTime;
+	private String imgPath;
 
-    /**
-     * 销售有效结束时间 *
-     */
-    private String saleStopTime;
+	private Float marketPrice;
 
-    public Long getId() {
-        return id;
-    }
+	private Float killPrice;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private List<String> thumbs;
 
-    @JsonProperty("description")
-    public String getRemark() {
-        return remark;
-    }
+	private Long stockNum;
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+	public List<String> getThumbs() {
+		return thumbs;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setThumbs(List<String> thumbs) {
+		this.thumbs = thumbs;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * 销售有效开始时间 *
+	 */
+	private String saleStartTime;
 
-    public String getImgPath() {
-        return imgPath;
-    }
+	/**
+	 * 销售有效结束时间 *
+	 */
+	private String saleStopTime;
 
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Float getMarketPrice() {
-        return marketPrice;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setMarketPrice(Float marketPrice) {
-        this.marketPrice = marketPrice;
-    }
+	@JsonProperty("description")
+	public String getRemark() {
+		return remark;
+	}
 
-    public String getSaleStartTime() {
-        return saleStartTime;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    public void setSaleStartTime(String saleStartTime) {
-        this.saleStartTime = saleStartTime;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getSaleStopTime() {
-        return saleStopTime;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setSaleStopTime(String saleStopTime) {
-        this.saleStopTime = saleStopTime;
-    }
+	public String getImgPath() {
+		return imgPath;
+	}
 
-   @Mapping("iseckillPrice")
-    public Float getKillPrice() {
-        return killPrice;
-    }
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
 
-    public void setKillPrice(Float killPrice) {
-        this.killPrice = killPrice;
-    }
+	public Float getMarketPrice() {
+		return marketPrice;
+	}
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+	public void setMarketPrice(Float marketPrice) {
+		this.marketPrice = marketPrice;
+	}
+
+	public String getSaleStartTime() {
+		return saleStartTime;
+	}
+
+	public void setSaleStartTime(String saleStartTime) {
+		this.saleStartTime = saleStartTime;
+	}
+
+	public String getSaleStopTime() {
+		return saleStopTime;
+	}
+
+	public void setSaleStopTime(String saleStopTime) {
+		this.saleStopTime = saleStopTime;
+	}
+
+	@Mapping("iseckillPrice")
+	public Float getKillPrice() {
+		return killPrice;
+	}
+
+	public void setKillPrice(Float killPrice) {
+		this.killPrice = killPrice;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public Long getStockNum() {
+		return stockNum;
+	}
+
+	public void setStockNum(Long stockNum) {
+		this.stockNum = stockNum;
+	}
+
 }

@@ -39,7 +39,7 @@
 
     <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->
     <mvc:default-servlet-handler/>
-
+<!--
     <mvc:interceptors>
         <bean class="com.cplatform.sapi.filter.AbstractExcludePathInterceptor">
             <property name="trustRemoteAddrs">
@@ -53,7 +53,7 @@
             </property>
         </bean>
     </mvc:interceptors>
-
+-->
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>

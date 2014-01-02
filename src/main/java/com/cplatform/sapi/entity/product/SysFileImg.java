@@ -1,12 +1,12 @@
 package com.cplatform.sapi.entity.product;
 
 import com.cplatform.sapi.entity.IdEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Lists;
+import com.google.code.ssm.api.CacheKeyMethod;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 /**
  * Title.普通文件存储类 <br>
@@ -24,8 +24,6 @@ import java.util.List;
 @javax.persistence.Table(name = "T_SYS_FILE_IMG")
 @Entity
 public class SysFileImg extends IdEntity {
-
-    private Long id;
 
     /**
      * 文件类型
@@ -70,8 +68,7 @@ public class SysFileImg extends IdEntity {
     /**
      * 业务id
      */
-//	private Long bsId;
-    private ItemSale itemSale;
+    private Long bsId;
     /**
      * 表名
      */
@@ -81,8 +78,6 @@ public class SysFileImg extends IdEntity {
      * 排序
      */
     private Integer sort;
-
-    private List<SysFileImgThumb> sysFileImgThumbs = Lists.newArrayList();
 
     @Column(name = "file_type")
     public String getFileType() {
@@ -156,25 +151,15 @@ public class SysFileImg extends IdEntity {
         this.bsKey = bsKey;
     }
 
-//	@Column(name = "bs_id")
-//	public Long getBsId() {
-//		return bsId;
-//	}
-//
-//	public void setBsId(Long bsId) {
-//		this.bsId = bsId;
-//	}
-
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "bs_id")
-    public ItemSale getItemSale() {
-        return itemSale;
+    @Column(name = "bs_id")
+    public Long getBsId() {
+        return bsId;
     }
 
-    public void setItemSale(ItemSale itemSale) {
-        this.itemSale = itemSale;
+    public void setBsId(Long bsId) {
+        this.bsId = bsId;
     }
+
 
     @Column(name = "table_name")
     public String getTableName() {
@@ -207,13 +192,10 @@ public class SysFileImg extends IdEntity {
         return path;
     }
 
-    @OneToMany(mappedBy = "sysFileImg", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
-    public List<SysFileImgThumb> getSysFileImgThumbs() {
-        return sysFileImgThumbs;
-    }
-
-    public void setSysFileImgThumbs(List<SysFileImgThumb> sysFileImgThumbs) {
-        this.sysFileImgThumbs = sysFileImgThumbs;
+    @Transient
+    @CacheKeyMethod
+    public String cacheKey() {
+        return bsKey + "/" + bsId;
     }
 
     @Override

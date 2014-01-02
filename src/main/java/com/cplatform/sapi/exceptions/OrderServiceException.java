@@ -25,11 +25,20 @@ public class OrderServiceException extends ServiceException {
 
     public static final int PRICE_NOT_MATCH = 2003;
 
-    public static final int INTERFACE_ERROR = 2004;
-
     public static final int PAY_CHECK_ERROR = 2005;
 
-    /** 需要绑定手机号码 */
+    public static final int GOOD_NUMBER_ERROR = 3001;
+
+    public static final int USER_INCORRECT_ERROR = 3002;
+
+    public static final int ORDER_NUMBER_ERROR = 3003;
+
+    public static final int ORDER_PAYTYPE_ERROR = 3004;
+    public static final int ORDER_NOT_EXIST = 3005;
+
+    /**
+     * 需要绑定手机号码
+     */
     public static final int NEED_BIND_MOBILE = 2006;
 
     public static final int PAY_AMOUNT_ERROR = 2007;
@@ -44,6 +53,11 @@ public class OrderServiceException extends ServiceException {
         errorMessageMapping.put(PRICE_NOT_MATCH, "输入价格参数和商品价格不相等。");
         errorMessageMapping.put(NEED_BIND_MOBILE, "需要绑定手机号码。");
         errorMessageMapping.put(PAY_AMOUNT_ERROR, "支付数额设置不正确。");
+        errorMessageMapping.put(GOOD_NUMBER_ERROR, "营销商品购买数量错误");
+        errorMessageMapping.put(USER_INCORRECT_ERROR, "营销订单用户不正确");
+        errorMessageMapping.put(ORDER_NUMBER_ERROR, "营销订单不允许重复");
+        errorMessageMapping.put(ORDER_PAYTYPE_ERROR, "订单商品支付方式不一致");
+        errorMessageMapping.put(ORDER_NOT_EXIST, "订单不存在");
     }
 
     public OrderServiceException(int code) {

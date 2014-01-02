@@ -2,30 +2,23 @@ package com.cplatform.sapi.rest;
 
 import com.cplatform.sapi.DTO.*;
 import com.cplatform.sapi.entity.order.TActOrder;
-import com.cplatform.sapi.entity.order.TActOrderExpress;
-import com.cplatform.sapi.entity.order.TActOrderGoods;
-import com.cplatform.sapi.entity.order.TActOrderPayment;
 import com.cplatform.sapi.entity.product.ItemSale;
-import com.cplatform.sapi.entity.product.SysFileImg;
 import com.cplatform.sapi.entity.profile.MemberFavorite;
 import com.cplatform.sapi.entity.profile.TItemComment;
 import com.cplatform.sapi.mapper.BeanMapper;
 import com.cplatform.sapi.orm.Page;
+import com.cplatform.sapi.orm.PageRequest;
 import com.cplatform.sapi.orm.PropertyFilter;
 import com.cplatform.sapi.service.ItemSaleService;
 import com.cplatform.sapi.service.ProfileService;
 import com.cplatform.sapi.util.MediaTypes;
-import com.cplatform.sapi.util.PathUtil;
 import com.cplatform.sapi.util.TimeUtil;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -47,9 +40,6 @@ public class ProfileController {
     private ProfileService profileService;
     private ItemSaleService itemSaleService;
 
-    @Autowired
-    private PathUtil pathUtil;
-
     @RequestMapping(value = "myOrders", method = RequestMethod.GET)
     @ResponseBody
     public OrderDTO myOrders(HttpServletRequest request) {
@@ -59,16 +49,18 @@ public class ProfileController {
         String userId = request.getParameter("U_ID");
         String pageNo = request.getParameter("PAGE_NO");
         String pageSize = request.getParameter("PAGE_SIZE");
-        String payStauts = request.getParameter("STATUS");
+        String payStatus = request.getParameter("STATUS");
 
         Validate.notNull(userId, "用户ID不能为空");
         filters.add(new PropertyFilter("EQL_userId", userId));
-        if(StringUtils.isNotBlank(payStauts)){
-            if(payStauts.equals("1")){
-                payStauts="0";
+        //只区分已支付和未支付
+        if (StringUtils.isNotBlank(payStatus)) {
+            if (payStatus.equals("1") || payStatus.equals("0")) {
+                filters.add(new PropertyFilter("LEI_payStatus", "1"));
+                filters.add(new PropertyFilter("GEI_payStatus", "0"));
+            } else {
+                filters.add(new PropertyFilter("EQI_payStatus", payStatus));
             }
-
-            filters.add(new PropertyFilter("EQI_payStatus",payStauts));
         }
 
         if (StringUtils.isNotBlank(pageNo)) {
@@ -78,6 +70,8 @@ public class ProfileController {
         if (StringUtils.isNotBlank(pageSize)) {
             orderPage.setPageSize(Integer.valueOf(pageSize));
         }
+        orderPage.setOrderBy("createTime");
+        orderPage.setOrderDir(PageRequest.Sort.DESC);
 
         orderPage = profileService.searchOrder(orderPage, filters);
         List<TActOrder> orders = orderPage.getResult();
@@ -85,129 +79,23 @@ public class ProfileController {
         // 转换结果为指定格式
         OrderDTO dto = new OrderDTO();
         dto.setTotalRow(orderPage.getTotalItems());
-        List<OrderDataDTO> datas = Lists.newArrayList();
-        dto.setOrderDatas(datas);
+        List<OrderDataDTO> orderDataDTOs = Lists.newArrayList();
+
         for (TActOrder order : orders) {
-            OrderDataDTO data = new OrderDataDTO();
-            data.setOrderId(order.getId());  //订单编号
-            data.setSubject(order.getSubject()); //订单标题
-            data.setStatus(order.getStatus()); //订单状态
-            data.setOrderTime(order.getCreateTime()); //下单时间
-            data.setAmount(order.getTotalPayAmount()); //订单金额
-            data.setPayStatus(order.getPayStatus()); //订单支付状态
-            data.setPayDescription(order.getPayDescription()); //支付说明
-            data.setPayTime(order.getPayTime()); //订单支付时间
-            TActOrderExpress orderExpress = order.getExpressInfo();
-            if (orderExpress != null) {
-                data.setFare(orderExpress.getExpressCost()); // 运费，展示用，单位分
-            }
 
-            //订单商品信息
-            List<GoodsInfoDTO> goodsInfoDTOs = Lists.newArrayList(); //商品信息
-            data.setGoodsInfoDTOs(goodsInfoDTOs);
-            for (TActOrderGoods orderGood : order.getGoodsInfos()) {
-                GoodsInfoDTO goodsInfoDTO = new GoodsInfoDTO();
-
-                goodsInfoDTO.setPrice(orderGood.getPayPrice()); //支付价格
-                goodsInfoDTO.setCount(orderGood.getCount()); //商品数量
-                goodsInfoDTO.setTotalAmount(orderGood.getTotalAmount()); //商品总额
-
-                goodsInfoDTO.setGoodsId(orderGood.getItemSale().getId());
-                goodsInfoDTO.setGoodsName(orderGood.getItemSale().getName());
-                List<SysFileImg> sysFileImgs = orderGood.getItemSale()
-                        .getSysFileImgs();
-                if (sysFileImgs != null && !sysFileImgs.isEmpty()) { // 设置列表图片
-                    String image = "http://mall2.12580life.com"
-                            + pathUtil.getPathById(2, orderGood.getItemSale()
-                            .getId()) + "N4/"
-                            + sysFileImgs.get(0).getFileName();
-                    goodsInfoDTO.setGoodsImage(image);
-                }
-                goodsInfoDTOs.add(goodsInfoDTO);
-            }
-
-            //订单支付信息
-            List<PaymentDTO> paymentDTOs = Lists.newArrayList();
-            data.setPaymentDTOs(paymentDTOs); //订单支付信息
-            for (TActOrderPayment payment : order.getPayments()) {
-                PaymentDTO paymentDTO = new PaymentDTO();
-
-                paymentDTO.setAmount(payment.getAmount());
-                paymentDTO.setCurrency(payment.getCurrency());
-
-                paymentDTOs.add(paymentDTO);
-            }
-
-            datas.add(data);
+            orderDataDTOs.add(profileService.buildOrderData(order));
         }
-
+        dto.setOrderDatas(orderDataDTOs);
         return dto;
     }
 
     @RequestMapping(value = "orderDetail", method = RequestMethod.GET)
     @ResponseBody
-    public OrderDataDTO orderDetail(HttpServletRequest request) {
-        String orderId = request.getParameter("ORDER_ID");
-        TActOrder order = profileService.getOrder(Long.valueOf(orderId == null ? "" : orderId));
+    public OrderDataDTO orderDetail(@RequestParam(value = "ORDER_ID") Long orderId) {
 
-        OrderDataDTO orderDataDTO = new OrderDataDTO();
-        orderDataDTO.setOrderId(order.getId());  //订单编号
-        orderDataDTO.setSubject(order.getSubject()); //订单标题
-        orderDataDTO.setStatus(order.getStatus()); //订单状态
-        orderDataDTO.setOrderTime(order.getCreateTime()); //下单时间
-        orderDataDTO.setAmount(order.getTotalPayAmount()); //订单金额
-        orderDataDTO.setPayStatus(order.getPayStatus()); //订单支付状态
-        orderDataDTO.setPayDescription(order.getPayDescription()); //支付说明
-        orderDataDTO.setPayTime(order.getPayTime()); //订单支付时间
+        TActOrder order = profileService.getOrder(orderId);
 
-        TActOrderExpress orderExpress = order.getExpressInfo();
-        if (orderExpress != null) {
-            orderDataDTO.setFare(orderExpress.getExpressCost()); // 运费，展示用，单位分
-            orderDataDTO.setExpressId(orderExpress.getExpressCompanyId());
-            orderDataDTO.setExpressCode(orderExpress.getExpressNo());
-            orderDataDTO.setExpressName(orderExpress.getExpressCompanyName());
-            orderDataDTO.setAddress(orderExpress.getAddress());
-            orderDataDTO.setDeliveryPhone(orderExpress.getCellphoneNumber());
-            orderDataDTO.setDeliveryName(orderExpress.getReceiverName());
-        }
-
-        //订单商品信息
-        List<GoodsInfoDTO> goodsInfoDTOs = Lists.newArrayList(); //商品信息
-        orderDataDTO.setGoodsInfoDTOs(goodsInfoDTOs);
-        for (TActOrderGoods orderGood : order.getGoodsInfos()) {
-            GoodsInfoDTO goodsInfoDTO = new GoodsInfoDTO();
-
-            goodsInfoDTO.setPrice(orderGood.getPayPrice()); //支付价格
-            goodsInfoDTO.setCount(orderGood.getCount()); //商品数量
-            goodsInfoDTO.setTotalAmount(orderGood.getTotalAmount()); //商品总额
-
-            goodsInfoDTO.setGoodsId(orderGood.getItemSale().getId());
-            goodsInfoDTO.setGoodsName(orderGood.getItemSale().getName());
-            List<SysFileImg> sysFileImgs = orderGood.getItemSale()
-                    .getSysFileImgs();
-            if (sysFileImgs != null && !sysFileImgs.isEmpty()) { // 设置列表图片
-                String image = "http://mall2.12580life.com"
-                        + pathUtil.getPathById(2, orderGood.getItemSale()
-                        .getId()) + "N4/"
-                        + sysFileImgs.get(0).getFileName();
-                goodsInfoDTO.setGoodsImage(image);
-            }
-            goodsInfoDTOs.add(goodsInfoDTO);
-        }
-
-        //订单支付信息
-        List<PaymentDTO> paymentDTOs = Lists.newArrayList();
-        orderDataDTO.setPaymentDTOs(paymentDTOs); //订单支付信息
-        for (TActOrderPayment payment : order.getPayments()) {
-            PaymentDTO paymentDTO = new PaymentDTO();
-
-            paymentDTO.setAmount(payment.getAmount());
-            paymentDTO.setCurrency(payment.getCurrency());
-
-            paymentDTOs.add(paymentDTO);
-        }
-
-        return orderDataDTO;
+        return profileService.buildOrderData(order);
     }
 
     @RequestMapping(value = "myCollects", method = RequestMethod.GET)

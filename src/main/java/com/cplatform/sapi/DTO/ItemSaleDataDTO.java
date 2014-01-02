@@ -1,5 +1,7 @@
 package com.cplatform.sapi.DTO;
 
+import com.cplatform.sapi.entity.product.MarketGoods;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -18,6 +20,10 @@ public class ItemSaleDataDTO {
     private Item item;
     private ItemProperties properties;
     private List<ItemPrice> itemPrice = Lists.newArrayList();
+    private MarketGoods marketGoodsProperty;
+
+    private int count;
+    private int discount;
 
     public static class Item {
         private Long id;
@@ -54,12 +60,46 @@ public class ItemSaleDataDTO {
         private String rank;
         private String warmPrompt;
         private String groupFlag;
-        private String paymentCash;
-        private String paymentCoin;
-        private String paymentScore;
-        private String isValid;
+        @JsonProperty("isValid")
+        private String isvalid;
+        private String status;
         private String iseckill;
         private String minPrice;
+        private String userLevels;
+        private int cashIdgoods;
+        private int coinIdgoods;
+        private int scoreIdgoods;
+        private int deliveryPay;
+        private String regionCodes;
+        private BigDecimal iseckillPrice;
+
+        private int payType;
+        private int billPay;
+        private String source;
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
+
+        public int getPayType() {
+            return payType;
+        }
+
+        public void setPayType(int payType) {
+            this.payType = payType;
+        }
+
+        public int getBillPay() {
+            return billPay;
+        }
+
+        public void setBillPay(int billPay) {
+            this.billPay = billPay;
+        }
 
         public Long getId() {
             return id;
@@ -75,6 +115,14 @@ public class ItemSaleDataDTO {
 
         public void setItemId(Long itemId) {
             this.itemId = itemId;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 
         public String getName() {
@@ -333,36 +381,12 @@ public class ItemSaleDataDTO {
             this.groupFlag = groupFlag;
         }
 
-        public String getPaymentCash() {
-            return paymentCash;
+        public String getIsvalid() {
+            return isvalid;
         }
 
-        public void setPaymentCash(String paymentCash) {
-            this.paymentCash = paymentCash;
-        }
-
-        public String getPaymentCoin() {
-            return paymentCoin;
-        }
-
-        public void setPaymentCoin(String paymentCoin) {
-            this.paymentCoin = paymentCoin;
-        }
-
-        public String getPaymentScore() {
-            return paymentScore;
-        }
-
-        public void setPaymentScore(String paymentScore) {
-            this.paymentScore = paymentScore;
-        }
-
-        public String getValid() {
-            return isValid;
-        }
-
-        public void setValid(String valid) {
-            isValid = valid;
+        public void setIsvalid(String isvalid) {
+            this.isvalid = isvalid;
         }
 
         public String getIseckill() {
@@ -381,6 +405,61 @@ public class ItemSaleDataDTO {
             this.minPrice = minPrice;
         }
 
+        public String getUserLevels() {
+            return userLevels;
+        }
+
+        public void setUserLevels(String userLevels) {
+            this.userLevels = userLevels;
+        }
+
+        public int getCashIdgoods() {
+            return cashIdgoods;
+        }
+
+        public void setCashIdgoods(int cashIdgoods) {
+            this.cashIdgoods = cashIdgoods;
+        }
+
+        public int getCoinIdgoods() {
+            return coinIdgoods;
+        }
+
+        public void setCoinIdgoods(int coinIdgoods) {
+            this.coinIdgoods = coinIdgoods;
+        }
+
+        public int getScoreIdgoods() {
+            return scoreIdgoods;
+        }
+
+        public void setScoreIdgoods(int scoreIdgoods) {
+            this.scoreIdgoods = scoreIdgoods;
+        }
+
+        public String getRegionCodes() {
+            return regionCodes;
+        }
+
+        public void setRegionCodes(String regionCodes) {
+            this.regionCodes = regionCodes;
+        }
+
+        public BigDecimal getIseckillPrice() {
+            return iseckillPrice;
+        }
+
+        public void setIseckillPrice(BigDecimal iseckillPrice) {
+            this.iseckillPrice = iseckillPrice;
+        }
+
+        public int getDeliveryPay() {
+            return deliveryPay;
+        }
+
+        public void setDeliveryPay(int deliveryPay) {
+            this.deliveryPay = deliveryPay;
+        }
     }
 
 
@@ -411,6 +490,32 @@ public class ItemSaleDataDTO {
         this.item = item;
     }
 
+    @JsonIgnore
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    @JsonIgnore
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public MarketGoods getMarketGoodsProperty() {
+        return marketGoodsProperty;
+    }
+
+    public void setMarketGoodsProperty(MarketGoods marketGoodsProperty) {
+        this.marketGoodsProperty = marketGoodsProperty;
+    }
+
     public static class ItemProperties {
 
     }
@@ -421,35 +526,35 @@ public class ItemSaleDataDTO {
         private String priceType;
         private BigDecimal price;
 
-        Long getSaleId() {
+        public Long getSaleId() {
             return saleId;
         }
 
-        void setSaleId(Long saleId) {
+        public void setSaleId(Long saleId) {
             this.saleId = saleId;
         }
 
-        String getPriceTypeCode() {
+        public String getPriceTypeCode() {
             return priceTypeCode;
         }
 
-        void setPriceTypeCode(String priceTypeCode) {
+        public void setPriceTypeCode(String priceTypeCode) {
             this.priceTypeCode = priceTypeCode;
         }
 
-        String getPriceType() {
+        public String getPriceType() {
             return priceType;
         }
 
-        void setPriceType(String priceType) {
+        public void setPriceType(String priceType) {
             this.priceType = priceType;
         }
 
-        BigDecimal getPrice() {
+        public BigDecimal getPrice() {
             return price;
         }
 
-        void setPrice(BigDecimal price) {
+        public void setPrice(BigDecimal price) {
             this.price = price;
         }
     }

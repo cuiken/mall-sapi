@@ -1,7 +1,7 @@
-<%@ page language="java" pageEncoding="utf-8" isErrorPage="true"%>
+<%@ page language="java" pageEncoding="utf-8" isErrorPage="true" %>
 
 <%response.setStatus(200);%>
 
 <%
-    response.getWriter().print("{\"FLAG\":\"-1\",\"MSG\":\"404\"}");
+    response.getWriter().print("{\"FLAG\":\"404\",\"MSG\":\"访问资源不存在\"}");
 %>
